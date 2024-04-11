@@ -1,18 +1,19 @@
-export declare const FACTORY_ADDRESS = "0x1F98431c8aD98523631AE4a59f267346ea31F984";
-export declare const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
-export declare const POOL_INIT_CODE_HASH = "0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54";
+import { Percent } from '@uniswap/sdk-core';
+import JSBI from 'jsbi';
 /**
- * The default factory enabled fee amounts, denominated in hundredths of bips.
+ * @deprecated use FACTORY_ADDRESS_MAP instead
  */
-export declare enum FeeAmount {
-    LOWEST = 100,
-    LOW = 500,
-    MEDIUM = 3000,
-    HIGH = 10000
-}
-/**
- * The default factory tick spacings by fee amount.
- */
-export declare const TICK_SPACINGS: {
-    [amount in FeeAmount]: number;
+export declare const FACTORY_ADDRESS = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
+export declare const FACTORY_ADDRESS_MAP: {
+    [chainId: number]: string;
 };
+export declare const INIT_CODE_HASH = "0x96e8ac4277198ff8b6f785478aa9a39f403cb768dd02cbee326c3e7da348845f";
+export declare const MINIMUM_LIQUIDITY: JSBI;
+export declare const ZERO: JSBI;
+export declare const ONE: JSBI;
+export declare const FIVE: JSBI;
+export declare const _997: JSBI;
+export declare const _1000: JSBI;
+export declare const BASIS_POINTS: JSBI;
+export declare const ZERO_PERCENT: Percent;
+export declare const ONE_HUNDRED_PERCENT: Percent;
