@@ -230,12 +230,10 @@ var computePairAddress = function computePairAddress(_ref) {
   var _ref2 = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA],
     token0 = _ref2[0],
     token1 = _ref2[1]; // does safety checks
-  console.log('v2 sdk', token0, token1)
 
   return getCreate2Address(factoryAddress, keccak256(['bytes'], [pack(['address', 'address'], [token0.address, token1.address])]), INIT_CODE_HASH);
 };
 var Pair = /*#__PURE__*/function () {
-  console.log('v2 sdk pair')
   function Pair(currencyAmountA, tokenAmountB) {
     var tokenAmounts = currencyAmountA.currency.sortsBefore(tokenAmountB.currency) // does safety checks
       ? [currencyAmountA, tokenAmountB] : [tokenAmountB, currencyAmountA];
@@ -245,7 +243,7 @@ var Pair = /*#__PURE__*/function () {
 
   Pair.getAddress = function getAddress(tokenA, tokenB) {
     var _FACTORY_ADDRESS_MAP$;
-    console.log('v2 sdk getAddress', tokenA, tokenB)
+
     var factoryAddress = (_FACTORY_ADDRESS_MAP$ = FACTORY_ADDRESS_MAP[tokenA.chainId]) != null ? _FACTORY_ADDRESS_MAP$ : FACTORY_ADDRESS;
     return computePairAddress({
       factoryAddress: factoryAddress,
