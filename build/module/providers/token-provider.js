@@ -20,7 +20,7 @@ export const USDT_GOERLI = new Token(ChainId.GOERLI, '0xe583769738b6dd4e7caf8451
 export const WBTC_GOERLI = new Token(ChainId.GOERLI, '0xa0a5ad2296b38bd3e3eb59aaeaf1589e8d9a29a9', 8, 'WBTC', 'Wrapped BTC');
 export const DAI_GOERLI = new Token(ChainId.GOERLI, '0x11fe4b6ae13d2a6055c8d9cf65c55bac32b5d844', 18, 'DAI', 'Dai Stablecoin');
 export const UNI_GOERLI = new Token(ChainId.GOERLI, '0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', 18, 'UNI', 'Uni token');
-export const USDT_BIT_DEVNET = new Token(ChainId.BIT_DEVNET, '0xe583769738b6dd4e7caf8451050d1948be717679', 18, 'TOKEN1', 'Token1');
+export const USDT_BIT_DEVNET = new Token(ChainId.BIT_DEVNET, '0x94F97Eb85f56Ad0364da734b8c9fC7893573aAc2', 18, 'TOKEN1', 'Token1');
 export class TokenProvider {
     constructor(chainId, multicall2Provider) {
         this.chainId = chainId;
