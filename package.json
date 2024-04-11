@@ -1,7 +1,7 @@
 {
   "name": "@uniswap/v2-sdk",
   "license": "MIT",
-  "version": "4.3.1",
+  "version": "4.3.2",
   "description": "🛠 An SDK for building applications on top of Uniswap V2",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -24,7 +24,7 @@
   "dependencies": {
     "@ethersproject/address": "^5.0.0",
     "@ethersproject/solidity": "^5.0.0",
-    "@uniswap/sdk-core": "^4.2.0",
+    "@uniswap/sdk-core": "github:BounceBit-Labs/bitswap_v3_sdk#core",
     "tiny-invariant": "^1.1.0",
     "tiny-warning": "^1.0.3"
   },
