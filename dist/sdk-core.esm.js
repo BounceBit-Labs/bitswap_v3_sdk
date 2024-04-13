@@ -161,7 +161,7 @@ var BIT_DEVNET_ADDRESSES = {
   v3MigratorAddress: '0x729004182cF005CEC8Bd85df140094b6aCbe8b15',
   nonfungiblePositionManagerAddress: '0xDB9E5020B03eD265A0716400431681a11BD9c55c',
   tickLensAddress: '0x96650725D20d5CC848eDd7746853DcC53541ed4b',
-  swapRouter02Address: '0xF92900Cdf77538a529c6F233C2d25749657975a9'
+  swapRouter02Address: '0xEDa8E59B4fcf2999831f666727ce65189995c83a'
 }; // Avalanche v3 addresses
 
 
