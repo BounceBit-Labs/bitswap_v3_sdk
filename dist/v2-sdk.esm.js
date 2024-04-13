@@ -9,9 +9,9 @@ import invariant from 'tiny-invariant';
  * @deprecated use FACTORY_ADDRESS_MAP instead
  */
 
-var FACTORY_ADDRESS = '0xc206A358aCc86B89aEAd3396bf3D6F516D9e93a5';
+var FACTORY_ADDRESS = '0xeC2e9f996faF6CC2f1FD1199F9F3221961645B8b';
 var FACTORY_ADDRESS_MAP = V2_FACTORY_ADDRESSES;
-var INIT_CODE_HASH = '0x10b0e5013a5d507dc798de43f274fd46c250e765bfaff51f1ba96ba5d51fe747';
+var INIT_CODE_HASH = '0x806f9e4c5e64831c1022a3272b900cd1f5ff84c84347e01724eef542804e0608';
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
