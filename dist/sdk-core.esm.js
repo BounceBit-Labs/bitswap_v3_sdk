@@ -52,10 +52,10 @@ var ChainId;
   ChainId[ChainId["MAINNET"] = 1] = "MAINNET";
   ChainId[ChainId["GOERLI"] = 5] = "GOERLI";
   ChainId[ChainId["SEPOLIA"] = 11155111] = "SEPOLIA";
-  ChainId[ChainId["BIT_DEVNET"] = 6000] = "BIT_DEV";
+  ChainId[ChainId["BIT_DEVNET"] = 6000] = "BIT_DEVNET";
 })(ChainId || (ChainId = {}));
 
-var SUPPORTED_CHAINS = [ChainId.MAINNET, ChainId.BIT_DEVNET];
+var SUPPORTED_CHAINS = [ChainId.MAINNET, ChainId.GOERLI, ChainId.SEPOLIA, ChainId.BIT_DEVNET];
 var NativeCurrencyName;
 
 (function (NativeCurrencyName) {
@@ -85,7 +85,7 @@ function constructSameAddressMap(address, additionalNetworks) {
   }, {});
 }
 
-var UNI_ADDRESSES = /*#__PURE__*/constructSameAddressMap('0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', [ChainId.OPTIMISM, ChainId.ARBITRUM_ONE, ChainId.POLYGON, ChainId.POLYGON_MUMBAI, ChainId.SEPOLIA]);
+var UNI_ADDRESSES = /*#__PURE__*/constructSameAddressMap('0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984', [ChainId.SEPOLIA]);
 var UNISWAP_NFT_AIRDROP_CLAIM_ADDRESS = '0x8B799381ac40b838BBA4131ffB26197C432AFe78';
 /**
  * @deprecated use V2_FACTORY_ADDRESSES instead
@@ -114,35 +114,8 @@ var MAINNET_ADDRESSES = /*#__PURE__*/_extends({}, DEFAULT_ADDRESSES, {
 
 var GOERLI_ADDRESSES = /*#__PURE__*/_extends({}, DEFAULT_ADDRESSES, {
   v1MixedRouteQuoterAddress: '0xBa60b6e6fF25488308789E6e0A65D838be34194e'
-});
+}); // sepolia v3 addresses
 
-var OPTIMISM_ADDRESSES = DEFAULT_ADDRESSES;
-
-var ARBITRUM_ONE_ADDRESSES = /*#__PURE__*/_extends({}, DEFAULT_ADDRESSES, {
-  multicallAddress: '0xadF885960B47eA2CD9B55E6DAc6B42b7Cb2806dB',
-  tickLensAddress: '0xbfd8137f7d1516D3ea5cA83523914859ec47F573'
-});
-
-var POLYGON_ADDRESSES = DEFAULT_ADDRESSES; // celo v3 addresses
-
-var CELO_ADDRESSES = {
-  v3CoreFactoryAddress: '0xAfE208a311B21f13EF87E33A90049fC17A7acDEc',
-  multicallAddress: '0x633987602DE5C4F337e3DbF265303A1080324204',
-  quoterAddress: '0x82825d0554fA07f7FC52Ab63c961F330fdEFa8E8',
-  v3MigratorAddress: '0x3cFd4d48EDfDCC53D3f173F596f621064614C582',
-  nonfungiblePositionManagerAddress: '0x3d79EdAaBC0EaB6F08ED885C05Fc0B014290D95A',
-  tickLensAddress: '0x5f115D9113F88e0a0Db1b5033D90D4a9690AcD3D'
-}; // BNB v3 addresses
-
-var BNB_ADDRESSES = {
-  v3CoreFactoryAddress: '0xdB1d10011AD0Ff90774D0C6Bb92e5C5c8b4461F7',
-  multicallAddress: '0x963Df249eD09c358A4819E39d9Cd5736c3087184',
-  quoterAddress: '0x78D78E420Da98ad378D7799bE8f4AF69033EB077',
-  v3MigratorAddress: '0x32681814957e0C13117ddc0c2aba232b5c9e760f',
-  nonfungiblePositionManagerAddress: '0x7b8A01B39D58278b5DE7e48c8449c9f4F5170613',
-  tickLensAddress: '0xD9270014D396281579760619CCf4c3af0501A47C',
-  swapRouter02Address: '0xB971eF87ede563556b2ED4b1C0b0019111Dd85d2'
-};  // sepolia v3 addresses
 
 var SEPOLIA_ADDRESSES = {
   v3CoreFactoryAddress: '0x0227628f3F023bb0B980b67D528571c95c6DaC1c',
@@ -152,8 +125,7 @@ var SEPOLIA_ADDRESSES = {
   nonfungiblePositionManagerAddress: '0x1238536071E1c677A632429e3655c799b22cDA52',
   tickLensAddress: '0xd7f33bcdb21b359c8ee6f0251d30e94832baad07',
   swapRouter02Address: '0x3bFA4769FB09eefC5a80d6E87c3B9C650f7Ae48E'
-}; // Avalanche v3 addresses
-
+};
 var BIT_DEVNET_ADDRESSES = {
   v3CoreFactoryAddress: '0xa1D7936dB27B5252e9f2674554719e5Cc3c654B8',
   multicallAddress: '0x17F89F610400121c7dFD8e9C9D038923dCfAF060',
@@ -162,11 +134,8 @@ var BIT_DEVNET_ADDRESSES = {
   nonfungiblePositionManagerAddress: '0xDB9E5020B03eD265A0716400431681a11BD9c55c',
   tickLensAddress: '0x96650725D20d5CC848eDd7746853DcC53541ed4b',
   swapRouter02Address: '0xEDa8E59B4fcf2999831f666727ce65189995c83a'
-}; // Avalanche v3 addresses
-
-
-var CHAIN_TO_ADDRESSES_MAP = (_CHAIN_TO_ADDRESSES_M = {}, _CHAIN_TO_ADDRESSES_M[ChainId.MAINNET] = MAINNET_ADDRESSES, _CHAIN_TO_ADDRESSES_M[ChainId.GOERLI] = GOERLI_ADDRESSES, _CHAIN_TO_ADDRESSES_M[ChainId.SEPOLIA] = SEPOLIA_ADDRESSES,
-  _CHAIN_TO_ADDRESSES_M[ChainId.BIT_DEVNET] = BIT_DEVNET_ADDRESSES, _CHAIN_TO_ADDRESSES_M);
+};
+var CHAIN_TO_ADDRESSES_MAP = (_CHAIN_TO_ADDRESSES_M = {}, _CHAIN_TO_ADDRESSES_M[ChainId.MAINNET] = MAINNET_ADDRESSES, _CHAIN_TO_ADDRESSES_M[ChainId.GOERLI] = GOERLI_ADDRESSES, _CHAIN_TO_ADDRESSES_M[ChainId.SEPOLIA] = SEPOLIA_ADDRESSES, _CHAIN_TO_ADDRESSES_M[ChainId.BIT_DEVNET] = BIT_DEVNET_ADDRESSES, _CHAIN_TO_ADDRESSES_M);
 /* V3 Contract Addresses */
 
 var V3_CORE_FACTORY_ADDRESSES = /*#__PURE__*/_extends({}, /*#__PURE__*/SUPPORTED_CHAINS.reduce(function (memo, chainId) {
@@ -285,7 +254,7 @@ var Fraction = /*#__PURE__*/function () {
     if ('numerator' in fractionish && 'denominator' in fractionish) return fractionish;
     throw new Error('Could not parse fraction');
   } // performs floor division
-    ;
+  ;
 
   var _proto = Fraction.prototype;
 
@@ -376,10 +345,10 @@ var Fraction = /*#__PURE__*/function () {
     Big.RM = toFixedRounding[rounding];
     return new Big(this.numerator.toString()).div(this.denominator.toString()).toFormat(decimalPlaces, format);
   }
-    /**
-     * Helper method for converting any super class back to a fraction
-     */
-    ;
+  /**
+   * Helper method for converting any super class back to a fraction
+   */
+  ;
 
   _createClass(Fraction, [{
     key: "quotient",
@@ -425,13 +394,13 @@ var CurrencyAmount = /*#__PURE__*/function (_Fraction) {
   CurrencyAmount.fromRawAmount = function fromRawAmount(currency, rawAmount) {
     return new CurrencyAmount(currency, rawAmount);
   }
-    /**
-     * Construct a currency amount with a denominator that is not equal to 1
-     * @param currency the currency
-     * @param numerator the numerator of the fractional token amount
-     * @param denominator the denominator of the fractional token amount
-     */
-    ;
+  /**
+   * Construct a currency amount with a denominator that is not equal to 1
+   * @param currency the currency
+   * @param numerator the numerator of the fractional token amount
+   * @param denominator the denominator of the fractional token amount
+   */
+  ;
 
   CurrencyAmount.fromFractionalAmount = function fromFractionalAmount(currency, numerator, denominator) {
     return new CurrencyAmount(currency, numerator, denominator);
@@ -622,11 +591,11 @@ var Price = /*#__PURE__*/function (_Fraction) {
   _proto.invert = function invert() {
     return new Price(this.quoteCurrency, this.baseCurrency, this.numerator, this.denominator);
   }
-    /**
-     * Multiply the price by another price, returning a new price. The other price must have the same base currency as this price's quote currency
-     * @param other the other price
-     */
-    ;
+  /**
+   * Multiply the price by another price, returning a new price. The other price must have the same base currency as this price's quote currency
+   * @param other the other price
+   */
+  ;
 
   _proto.multiply = function multiply(other) {
     !this.quoteCurrency.equals(other.baseCurrency) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
@@ -635,11 +604,11 @@ var Price = /*#__PURE__*/function (_Fraction) {
 
     return new Price(this.baseCurrency, other.quoteCurrency, fraction.denominator, fraction.numerator);
   }
-    /**
-     * Return the amount of quote currency corresponding to a given amount of the base currency
-     * @param currencyAmount the amount of base currency to quote against the price
-     */
-    ;
+  /**
+   * Return the amount of quote currency corresponding to a given amount of the base currency
+   * @param currencyAmount the amount of base currency to quote against the price
+   */
+  ;
 
   _proto.quote = function quote(currencyAmount) {
     !currencyAmount.currency.equals(this.baseCurrency) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
@@ -648,11 +617,11 @@ var Price = /*#__PURE__*/function (_Fraction) {
 
     return CurrencyAmount.fromFractionalAmount(this.quoteCurrency, result.numerator, result.denominator);
   }
-    /**
-     * Get the value scaled by decimals for formatting
-     * @private
-     */
-    ;
+  /**
+   * Get the value scaled by decimals for formatting
+   * @private
+   */
+  ;
 
   _proto.toSignificant = function toSignificant(significantDigits, format, rounding) {
     if (significantDigits === void 0) {
@@ -685,21 +654,21 @@ var Price = /*#__PURE__*/function (_Fraction) {
  */
 
 var BaseCurrency =
-  /**
-   * Constructs an instance of the base class `BaseCurrency`.
-   * @param chainId the chain ID on which this currency resides
-   * @param decimals decimals of the currency
-   * @param symbol symbol of the currency
-   * @param name of the currency
-   */
-  function BaseCurrency(chainId, decimals, symbol, name) {
-    !Number.isSafeInteger(chainId) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_ID') : invariant(false) : void 0;
-    !(decimals >= 0 && decimals < 255 && Number.isInteger(decimals)) ? process.env.NODE_ENV !== "production" ? invariant(false, 'DECIMALS') : invariant(false) : void 0;
-    this.chainId = chainId;
-    this.decimals = decimals;
-    this.symbol = symbol;
-    this.name = name;
-  };
+/**
+ * Constructs an instance of the base class `BaseCurrency`.
+ * @param chainId the chain ID on which this currency resides
+ * @param decimals decimals of the currency
+ * @param symbol symbol of the currency
+ * @param name of the currency
+ */
+function BaseCurrency(chainId, decimals, symbol, name) {
+  !Number.isSafeInteger(chainId) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_ID') : invariant(false) : void 0;
+  !(decimals >= 0 && decimals < 255 && Number.isInteger(decimals)) ? process.env.NODE_ENV !== "production" ? invariant(false, 'DECIMALS') : invariant(false) : void 0;
+  this.chainId = chainId;
+  this.decimals = decimals;
+  this.symbol = symbol;
+  this.name = name;
+};
 
 /**
  * Represents the native currency of the chain on which it resides, e.g.
@@ -801,23 +770,23 @@ var Token = /*#__PURE__*/function (_BaseCurrency) {
   _proto.equals = function equals(other) {
     return other.isToken && this.chainId === other.chainId && this.address.toLowerCase() === other.address.toLowerCase();
   }
-    /**
-     * Returns true if the address of this token sorts before the address of the other token
-     * @param other other token to compare
-     * @throws if the tokens have the same address
-     * @throws if the tokens are on different chains
-     */
-    ;
+  /**
+   * Returns true if the address of this token sorts before the address of the other token
+   * @param other other token to compare
+   * @throws if the tokens have the same address
+   * @throws if the tokens are on different chains
+   */
+  ;
 
   _proto.sortsBefore = function sortsBefore(other) {
     !(this.chainId === other.chainId) ? process.env.NODE_ENV !== "production" ? invariant(false, 'CHAIN_IDS') : invariant(false) : void 0;
     !(this.address.toLowerCase() !== other.address.toLowerCase()) ? process.env.NODE_ENV !== "production" ? invariant(false, 'ADDRESSES') : invariant(false) : void 0;
     return this.address.toLowerCase() < other.address.toLowerCase();
   }
-    /**
-     * Return this token, which does not need to be wrapped
-     */
-    ;
+  /**
+   * Return this token, which does not need to be wrapped
+   */
+  ;
 
   _createClass(Token, [{
     key: "wrapped",
@@ -834,7 +803,7 @@ var _WETH;
  * Known WETH9 implementation addresses, used in our implementation of Ether#wrapped
  */
 
-var WETH9 = (_WETH = {}, _WETH[1] = /*#__PURE__*/new Token(1, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[3] = /*#__PURE__*/new Token(3, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[4] = /*#__PURE__*/new Token(4, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[5] = /*#__PURE__*/new Token(5, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WETH[42] = /*#__PURE__*/new Token(42, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WETH[10] = /*#__PURE__*/new Token(10, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'), _WETH[69] = /*#__PURE__*/new Token(69, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'), _WETH[11155420] = /*#__PURE__*/new Token(11155420, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'), _WETH[42161] = /*#__PURE__*/new Token(42161, '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1', 18, 'WETH', 'Wrapped Ether'), _WETH[421611] = /*#__PURE__*/new Token(421611, '0xB47e6A5f8b33b3F17603C83a0535A9dcD7E32681', 18, 'WETH', 'Wrapped Ether'), _WETH[421614] = /*#__PURE__*/new Token(421614, '0x980B62Da83eFf3D4576C647993b0c1D7faf17c73', 18, 'WETH', 'Wrapped Ether'), _WETH[8453] = /*#__PURE__*/new Token(8453, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'), _WETH[56] = /*#__PURE__*/new Token(56, '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c', 18, 'WBNB', 'Wrapped BNB'), _WETH[137] = /*#__PURE__*/new Token(137, '0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270', 18, 'WMATIC', 'Wrapped MATIC'), _WETH[43114] = /*#__PURE__*/new Token(43114, '0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7', 18, 'WAVAX', 'Wrapped AVAX'), _WETH[6000] = /*#__PURE__*/new Token(6000, '0x2Fe2C332E5F72F0AC76e82BaDD8261B8FbcFDFe3', 18, 'WBB', 'Wrapped BounceBit'), _WETH);
+var WETH9 = (_WETH = {}, _WETH[1] = /*#__PURE__*/new Token(1, '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', 18, 'WETH', 'Wrapped Ether'), _WETH[3] = /*#__PURE__*/new Token(3, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[4] = /*#__PURE__*/new Token(4, '0xc778417E063141139Fce010982780140Aa0cD5Ab', 18, 'WETH', 'Wrapped Ether'), _WETH[5] = /*#__PURE__*/new Token(5, '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6', 18, 'WETH', 'Wrapped Ether'), _WETH[42] = /*#__PURE__*/new Token(42, '0xd0A1E359811322d97991E03f863a0C30C2cF029C', 18, 'WETH', 'Wrapped Ether'), _WETH[10] = /*#__PURE__*/new Token(10, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'), _WETH[69] = /*#__PURE__*/new Token(69, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'), _WETH[11155420] = /*#__PURE__*/new Token(11155420, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'), _WETH[42161] = /*#__PURE__*/new Token(42161, '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1', 18, 'WETH', 'Wrapped Ether'), _WETH[421611] = /*#__PURE__*/new Token(421611, '0xB47e6A5f8b33b3F17603C83a0535A9dcD7E32681', 18, 'WETH', 'Wrapped Ether'), _WETH[421614] = /*#__PURE__*/new Token(421614, '0x980B62Da83eFf3D4576C647993b0c1D7faf17c73', 18, 'WETH', 'Wrapped Ether'), _WETH[8453] = /*#__PURE__*/new Token(8453, '0x4200000000000000000000000000000000000006', 18, 'WETH', 'Wrapped Ether'), _WETH[6000] = /*#__PURE__*/new Token(6000, '0x2Fe2C332E5F72F0AC76e82BaDD8261B8FbcFDFe3', 18, 'WBB', 'Wrapped BounceBit'), _WETH);
 
 /**
  * Ether is the main usage of a 'native' currency, i.e. for Ethereum mainnet and all testnets
@@ -904,7 +873,7 @@ function sortedInsert(items, add, maxSize, comparator) {
     }
 
     var lo = 0,
-      hi = items.length;
+        hi = items.length;
 
     while (lo < hi) {
       var mid = lo + hi >>> 1;

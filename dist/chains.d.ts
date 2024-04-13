@@ -4,8 +4,7 @@ export declare enum ChainId {
     SEPOLIA = 11155111,
     BIT_DEVNET = 6000
 }
-
-export declare const SUPPORTED_CHAINS: readonly [ChainId.MAINNET,ChainId.BIT_DEVNET];
+export declare const SUPPORTED_CHAINS: readonly [ChainId.MAINNET, ChainId.GOERLI, ChainId.SEPOLIA, ChainId.BIT_DEVNET];
 export declare type SupportedChainsType = typeof SUPPORTED_CHAINS[number];
 export declare enum NativeCurrencyName {
     ETHER = "ETH",
@@ -16,5 +15,5 @@ export declare enum NativeCurrencyName {
     BNB = "BNB",
     AVAX = "AVAX",
     ROOTSTOCK = "RBTC",
-    BOUNCEBIT='BB'
+    BOUNCEBIT = "BB"
 }
