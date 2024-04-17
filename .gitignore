@@ -7,8 +7,8 @@ src/**.js
 coverage
 *.log
 yarn.lock
-types
-types/*
+cli/types/*
+src/types/*
 .env
 cache/
 .DS_Store
