@@ -11,17 +11,14 @@ var bignumber = require('@ethersproject/bignumber');
 var solidity = require('@ethersproject/solidity');
 var invariant = _interopDefault(require('tiny-invariant'));
 
+var _INIT_CODE_HASH;
 /**
  * @deprecated use FACTORY_ADDRESS_MAP instead
  */
 
 var FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 var FACTORY_ADDRESS_MAP = sdkCore.V2_FACTORY_ADDRESSES;
-var INIT_CODE_HASH = function INIT_CODE_HASH(chainId) {
-  var hash = '';
-
-  return hash;
-};
+var INIT_CODE_HASH = (_INIT_CODE_HASH = {}, _INIT_CODE_HASH[6000] = '0x806f9e4c5e64831c1022a3272b900cd1f5ff84c84347e01724eef542804e0608', _INIT_CODE_HASH[6001] = '0x506acd4668762e160bb1fe031041cc47b4b6a5faab43a4cbb58a0d458778a9fd', _INIT_CODE_HASH[1] = '0x806f9e4c5e64831c1022a3272b900cd1f5ff84c84347e01724eef542804e0608', _INIT_CODE_HASH);
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
 var ZERO = /*#__PURE__*/JSBI.BigInt(0);
@@ -233,6 +230,8 @@ var InsufficientInputAmountError = /*#__PURE__*/function (_Error2) {
 }( /*#__PURE__*/_wrapNativeSuper(Error));
 
 var computePairAddress = function computePairAddress(_ref) {
+  var _token0$chainId;
+
   var factoryAddress = _ref.factoryAddress,
       tokenA = _ref.tokenA,
       tokenB = _ref.tokenB;
@@ -242,7 +241,7 @@ var computePairAddress = function computePairAddress(_ref) {
       token1 = _ref2[1]; // does safety checks
 
 
-  return address.getCreate2Address(factoryAddress, solidity.keccak256(['bytes'], [solidity.pack(['address', 'address'], [token0.address, token1.address])]), INIT_CODE_HASH());
+  return address.getCreate2Address(factoryAddress, solidity.keccak256(['bytes'], [solidity.pack(['address', 'address'], [token0.address, token1.address])]), INIT_CODE_HASH[(_token0$chainId = token0.chainId) != null ? _token0$chainId : 1]);
 };
 var Pair = /*#__PURE__*/function () {
   function Pair(currencyAmountA, tokenAmountB) {
