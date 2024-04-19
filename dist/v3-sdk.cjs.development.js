@@ -147,46 +147,11 @@ function _createForOfIteratorHelperLoose(o, allowArrayLike) {
   return it.next.bind(it);
 }
 
-var _TICK_SPACINGS;
+var _FACTORY_ADDRESS, _POOL_INIT_CODE_HASH, _TICK_SPACINGS;
 
-var FACTORY_ADDRESS = function FACTORY_ADDRESS(chainId) {
-  var address = '';
-
-  switch (chainId) {
-    case 6000:
-      address = '0xa1D7936dB27B5252e9f2674554719e5Cc3c654B8';
-      break;
-
-    case 6001:
-      address = '0x30a326d09E01d7960a0A2639c8F13362e6cd304A';
-      break;
-
-    default:
-      address = '0x1F98431c8aD98523631AE4a59f267346ea31F984';
-      break;
-  }
-
-  return address;
-};
+var FACTORY_ADDRESS = (_FACTORY_ADDRESS = {}, _FACTORY_ADDRESS[1] = '0x1F98431c8aD98523631AE4a59f267346ea31F984', _FACTORY_ADDRESS[6000] = '0xa1D7936dB27B5252e9f2674554719e5Cc3c654B8', _FACTORY_ADDRESS[6001] = '0x30a326d09E01d7960a0A2639c8F13362e6cd304A', _FACTORY_ADDRESS);
 var ADDRESS_ZERO = '0x0000000000000000000000000000000000000000';
-var POOL_INIT_CODE_HASH = function POOL_INIT_CODE_HASH(chainId) {
-  var hash = '';
-
-  switch (chainId) {
-    case 6000:
-      hash = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54';
-      break;
-
-    case 6001:
-      hash = '0xb08f141592c0050e62ab87dfaa72052ba6475576805a571ff865bf5bcbdb56e4';
-      break;
-
-    default:
-      hash = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54';
-  }
-
-  return hash;
-};
+var POOL_INIT_CODE_HASH = (_POOL_INIT_CODE_HASH = {}, _POOL_INIT_CODE_HASH[1] = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54', _POOL_INIT_CODE_HASH[6000] = '0xe34f199b19b2b4f47f68442619d555527d244f78a3297ea89325f843f87b8b54', _POOL_INIT_CODE_HASH[6001] = '0xb08f141592c0050e62ab87dfaa72052ba6475576805a571ff865bf5bcbdb56e4', _POOL_INIT_CODE_HASH);
 
 (function (FeeAmount) {
   FeeAmount[FeeAmount["LOWEST"] = 100] = "LOWEST";
@@ -219,6 +184,8 @@ var Q192 = /*#__PURE__*/JSBI.exponentiate(Q96, /*#__PURE__*/JSBI.BigInt(2));
  */
 
 function computePoolAddress(_ref) {
+  var _token0$chainId;
+
   var factoryAddress = _ref.factoryAddress,
       tokenA = _ref.tokenA,
       tokenB = _ref.tokenB,
@@ -230,7 +197,7 @@ function computePoolAddress(_ref) {
       token1 = _ref2[1]; // does safety checks
 
 
-  return address.getCreate2Address(factoryAddress, solidity.keccak256(['bytes'], [abi.defaultAbiCoder.encode(['address', 'address', 'uint24'], [token0.address, token1.address, fee])]), initCodeHashManualOverride != null ? initCodeHashManualOverride : POOL_INIT_CODE_HASH(token0.chainId));
+  return address.getCreate2Address(factoryAddress, solidity.keccak256(['bytes'], [abi.defaultAbiCoder.encode(['address', 'address', 'uint24'], [token0.address, token1.address, fee])]), initCodeHashManualOverride != null ? initCodeHashManualOverride : POOL_INIT_CODE_HASH[(_token0$chainId = token0.chainId) != null ? _token0$chainId : 1]);
 }
 
 var LiquidityMath = /*#__PURE__*/function () {
@@ -1141,8 +1108,10 @@ var Pool = /*#__PURE__*/function () {
   }
 
   Pool.getAddress = function getAddress(tokenA, tokenB, fee, initCodeHashManualOverride, factoryAddressOverride) {
+    var _tokenA$chainId;
+
     return computePoolAddress({
-      factoryAddress: factoryAddressOverride != null ? factoryAddressOverride : FACTORY_ADDRESS(tokenA.chainId),
+      factoryAddress: factoryAddressOverride != null ? factoryAddressOverride : FACTORY_ADDRESS[(_tokenA$chainId = tokenA.chainId) != null ? _tokenA$chainId : 1],
       fee: fee,
       tokenA: tokenA,
       tokenB: tokenB,
