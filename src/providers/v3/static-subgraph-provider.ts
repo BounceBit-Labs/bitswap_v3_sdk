@@ -9,8 +9,10 @@ import { WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 import { log } from '../../util/log';
 import { ProviderConfig } from '../provider';
 import {
+  BTC_BIT_MAINNET,
   DAI_GOERLI,
   DAI_MAINNET,
+  USD_BIT_MAINNET,
   USDC_GOERLI,
   USDC_MAINNET,
   USDC_SEPOLIA,
@@ -44,6 +46,7 @@ const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   ],
   [ChainId.SEPOLIA]: [WRAPPED_NATIVE_CURRENCY[ChainId.SEPOLIA]!, USDC_SEPOLIA],
   [ChainId.BIT_DEVNET]: [WRAPPED_NATIVE_CURRENCY[ChainId.BIT_DEVNET]!, USDC_SEPOLIA],
+  [ChainId.BIT_MAINNET]: [WRAPPED_NATIVE_CURRENCY[ChainId.BIT_MAINNET]!,BTC_BIT_MAINNET,USD_BIT_MAINNET],
 };
 
 /**

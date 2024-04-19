@@ -9,13 +9,14 @@ import {
 export const SUPPORTED_CHAINS: ChainId[] = [
   ChainId.MAINNET,
   ChainId.BIT_DEVNET,
+  ChainId.BIT_MAINNET,
   ChainId.GOERLI,
   ChainId.SEPOLIA,
  
   // Gnosis and Moonbeam don't yet have contracts deployed yet
 ];
 
-export const V2_SUPPORTED = [ChainId.MAINNET, ChainId.GOERLI, ChainId.SEPOLIA, ChainId.BIT_DEVNET];
+export const V2_SUPPORTED = [ChainId.MAINNET, ChainId.GOERLI, ChainId.SEPOLIA, ChainId.BIT_DEVNET,ChainId.BIT_MAINNET];
 
 export const HAS_L1_FEE:ChainId[] = [
 ];
@@ -34,7 +35,9 @@ export const ID_TO_CHAIN_ID = (id: number): ChainId => {
     case 11155111:
       return ChainId.SEPOLIA;
     case 6000:
-        return ChainId.BIT_DEVNET;
+      return ChainId.BIT_DEVNET;
+    case 6001:
+        return ChainId.BIT_MAINNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
   }
@@ -44,21 +47,8 @@ export enum ChainName {
   MAINNET = 'mainnet',
   GOERLI = 'goerli',
   SEPOLIA = 'sepolia',
-  OPTIMISM = 'optimism-mainnet',
-  OPTIMISM_GOERLI = 'optimism-goerli',
-  ARBITRUM_ONE = 'arbitrum-mainnet',
-  ARBITRUM_GOERLI = 'arbitrum-goerli',
-  POLYGON = 'polygon-mainnet',
-  POLYGON_MUMBAI = 'polygon-mumbai',
-  CELO = 'celo-mainnet',
-  CELO_ALFAJORES = 'celo-alfajores',
-  GNOSIS = 'gnosis-mainnet',
-  MOONBEAM = 'moonbeam-mainnet',
-  BNB = 'bnb-mainnet',
-  AVALANCHE = 'avalanche-mainnet',
-  BASE = 'base-mainnet',
-  BASE_GOERLI = 'base-goerli',
-  BIT_DEVNET='bounce-bit'
+  BIT_DEVNET = 'bounce-bit',
+  BIT_MAINNET = 'bounce-bit',
 }
 
 export enum NativeCurrencyName {
@@ -94,13 +84,19 @@ export const NATIVE_NAMES_BY_ID: { [chainId: number]: string[] } = {
     'BOUNCEBIT',
     '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
   ],
+  [ChainId.BIT_MAINNET]: [
+    'BB',
+    'BOUNCEBIT',
+    '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+  ],
 };
 
 export const NATIVE_CURRENCY: { [chainId: number]: NativeCurrencyName } = {
   [ChainId.MAINNET]: NativeCurrencyName.ETHER,
   [ChainId.GOERLI]: NativeCurrencyName.ETHER,
   [ChainId.SEPOLIA]: NativeCurrencyName.ETHER,
-  [ChainId.BIT_DEVNET]: NativeCurrencyName.BOUNCEBIT
+  [ChainId.BIT_DEVNET]: NativeCurrencyName.BOUNCEBIT,
+  [ChainId.BIT_MAINNET]: NativeCurrencyName.BOUNCEBIT
 };
 
 export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
@@ -112,6 +108,8 @@ export const ID_TO_NETWORK_NAME = (id: number): ChainName => {
     case 11155111:
       return ChainName.SEPOLIA;
     case 6000:
+      return ChainName.BIT_DEVNET;
+    case 6001:
         return ChainName.BIT_DEVNET;
     default:
       throw new Error(`Unknown chain id: ${id}`);
@@ -131,7 +129,9 @@ export const ID_TO_PROVIDER = (id: ChainId): string => {
     case ChainId.SEPOLIA:
       return process.env.JSON_RPC_PROVIDER_SEPOLIA!;
     case ChainId.BIT_DEVNET:
-        return process.env.JSON_RPC_PROVIDER_BIT_DEVNET!;
+      return process.env.JSON_RPC_PROVIDER_BIT_DEVNET!;
+    case ChainId.BIT_MAINNET:
+        return process.env.JSON_RPC_PROVIDER_BIT_MAINNET!;
     default:
       throw new Error(`Chain id: ${id} not supported`);
   }
@@ -162,6 +162,13 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId in ChainId]: Token } = {
   [ChainId.BIT_DEVNET]: new Token(
     6000,
     '0x2Fe2C332E5F72F0AC76e82BaDD8261B8FbcFDFe3',
+    18,
+    'WBB',
+    'Wrapped BB'
+  ),
+  [ChainId.BIT_MAINNET]: new Token(
+    6001,
+    '0xF4c20e5004C6FDCDdA920bDD491ba8C98a9c5863',
     18,
     'WBB',
     'Wrapped BB'

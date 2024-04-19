@@ -26,7 +26,7 @@ import {
   CachingV3PoolProvider,
   // CachingV3SubgraphProvider,
   EIP1559GasPriceProvider,
-  ETHGasStationInfoProvider,
+  // ETHGasStationInfoProvider,
   IOnChainQuoteProvider,
   IRouteCachingProvider,
   ISwapRouterProvider,
@@ -118,7 +118,7 @@ import {
 
 import {
   DEFAULT_ROUTING_CONFIG_BY_CHAIN,
-  ETH_GAS_STATION_API_URL,
+  // ETH_GAS_STATION_API_URL,
 } from './config';
 import {
   MixedRouteWithValidQuote,
@@ -610,18 +610,18 @@ export class AlphaRouter
       ]);
     }
 
-    let gasPriceProviderInstance: IGasPriceProvider;
-    if (JsonRpcProvider.isProvider(this.provider)) {
-      gasPriceProviderInstance = new OnChainGasPriceProvider(
+    // let gasPriceProviderInstance: IGasPriceProvider;
+    // if (JsonRpcProvider.isProvider(this.provider)) {
+    const  gasPriceProviderInstance = new OnChainGasPriceProvider(
         chainId,
         new EIP1559GasPriceProvider(this.provider as JsonRpcProvider),
         new LegacyGasPriceProvider(this.provider as JsonRpcProvider)
       );
-    } else {
-      gasPriceProviderInstance = new ETHGasStationInfoProvider(
-        ETH_GAS_STATION_API_URL
-      );
-    }
+    // } else {
+    //   gasPriceProviderInstance = new ETHGasStationInfoProvider(
+    //     ETH_GAS_STATION_API_URL
+    //   );
+    // }
 
     this.gasPriceProvider =
       gasPriceProvider ??
@@ -878,8 +878,6 @@ export class AlphaRouter
     partialRoutingConfig: Partial<AlphaRouterConfig> = {},
     externalGasPriceWei?: string
   ): Promise<SwapRoute | null> {
-    console.log('-----------------------------')
-    console.log('------ alpha-router', 'route')
     const originalAmount = amount;
     if (tradeType === TradeType.EXACT_OUTPUT) {
       const portionAmount = this.portionProvider.getPortionAmount(
@@ -904,7 +902,7 @@ export class AlphaRouter
         amount,
         quoteCurrency
       );
-    console.log('------ alpha-router', currencyIn, currencyOut)
+
     const tokenIn = currencyIn.wrapped;
     const tokenOut = currencyOut.wrapped;
 
@@ -945,10 +943,8 @@ export class AlphaRouter
       log.warn(`Finalized routing config is ${JSON.stringify(routingConfig)}`);
     }
 
-    const a = Date.now()
-    console.log('begin---------> gasPriceWei', a)
     const gasPriceWei = externalGasPriceWei ? BigNumber.from(externalGasPriceWei) : await this.getGasPriceWei();
-    console.log('begin--------->end gasPriceWei',Date.now(),Date.now()- a)
+
 
     const quoteToken = quoteCurrency.wrapped;
     const providerConfig: ProviderConfig = {
@@ -961,15 +957,13 @@ export class AlphaRouter
       ),
     };
 
-    const b = Date.now()
-    console.log('begin---------> getGasModels', b)
+
     const [v3GasModel, mixedRouteGasModel] = await this.getGasModels(
       gasPriceWei,
       amount.currency.wrapped,
       quoteToken,
       providerConfig
     );
-  console.log('begin--------->end getGasModels',Date.now(),Date.now()- b)
 
 
     // Create a Set to sanitize the protocols input, a Set of undefined becomes an empty set,
@@ -1021,21 +1015,7 @@ export class AlphaRouter
         1,
         MetricLoggerUnit.Count
       );
-      console.log(       {
-        tokenIn: tokenIn.symbol,
-        tokenInAddress: tokenIn.address,
-        tokenOut: tokenOut.symbol,
-        tokenOutAddress: tokenOut.address,
-        cacheMode,
-        amount: amount.toExact(),
-        chainId: this.chainId,
-        tradeType: this.tradeTypeStr(tradeType),
-      },
-      `GetCachedRoute miss ${cacheMode} for ${this.tokenPairSymbolTradeTypeChainId(
-        tokenIn,
-        tokenOut,
-        tradeType
-      )}`)
+
       log.info(
         {
           tokenIn: tokenIn.symbol,
@@ -1059,21 +1039,7 @@ export class AlphaRouter
         1,
         MetricLoggerUnit.Count
       );
-      console.log( {
-        tokenIn: tokenIn.symbol,
-        tokenInAddress: tokenIn.address,
-        tokenOut: tokenOut.symbol,
-        tokenOutAddress: tokenOut.address,
-        cacheMode,
-        amount: amount.toExact(),
-        chainId: this.chainId,
-        tradeType: this.tradeTypeStr(tradeType),
-      },
-      `GetCachedRoute hit ${cacheMode} for ${this.tokenPairSymbolTradeTypeChainId(
-        tokenIn,
-        tokenOut,
-        tradeType
-      )}`)
+ 
       log.info(
         {
           tokenIn: tokenIn.symbol,
@@ -1128,13 +1094,11 @@ export class AlphaRouter
       );
     }
 
-    const d = Date.now()
-    console.log('begin---------> swapRouteFromChain', d)
     const [swapRouteFromCache, swapRouteFromChain] = await Promise.all([
       swapRouteFromCachePromise,
       swapRouteFromChainPromise,
     ]);
-  console.log('begin--------->end swapRouteFromChain',Date.now(),Date.now()- d)
+
 
     let swapRouteRaw: BestSwapRoute | null;
     let hitsCachedRoute = false;
@@ -1214,7 +1178,7 @@ export class AlphaRouter
         );
       }
     }
-    console.log({swapRouteRaw})
+
     if (!swapRouteRaw) {
       return null;
     }
@@ -1293,10 +1257,6 @@ export class AlphaRouter
       MetricLoggerUnit.Count
     );
 
-    console.log({currencyIn,
-      currencyOut,
-      tradeType,
-      routeAmounts})
 
     // Build Trade object that represents the optimal swap.
     const trade = buildTrade<typeof tradeType>(
@@ -1306,7 +1266,7 @@ export class AlphaRouter
       routeAmounts
     );
 
-    console.log(trade)
+
     let methodParameters: MethodParameters | undefined;
 
     // If user provided recipient, deadline etc. we also generate the calldata required to execute
@@ -1401,7 +1361,7 @@ export class AlphaRouter
       );
       return swapRouteWithSimulation;
     }
-    console.log(swapRoute)
+
     return swapRoute;
   }
 
@@ -2240,8 +2200,9 @@ export class AlphaRouter
       async (_b, attempt) => {
         if (attempt > 1) {
           log.info(`Get block number attempt ${attempt}`);
+          console.log(`Get block number attempt ${attempt}`);
         }
-        return this.provider.getBlockNumber();
+        return this.provider?.getBlockNumber();
       },
       {
         retries: 2,

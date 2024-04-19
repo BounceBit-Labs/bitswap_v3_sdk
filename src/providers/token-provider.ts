@@ -155,8 +155,21 @@ export const USDT_BIT_DEVNET = new Token(
   'Token1'
 );
 
+export const USD_BIT_MAINNET = new Token(
+  ChainId.BIT_MAINNET,
+  '0x77776b40C3d75cb07ce54dEA4b2Fd1D07F865222',
+  18,
+  'BBUSD',
+  'BounceBit USD'
+);
 
-
+export const BTC_BIT_MAINNET = new Token(
+  ChainId.BIT_MAINNET,
+  '0xF5e11df1ebCf78b6b6D26E04FF19cD786a1e81dC',
+  18,
+  'BBTC',
+  'BBTC'
+);
 
 
 export class TokenProvider implements ITokenProvider {

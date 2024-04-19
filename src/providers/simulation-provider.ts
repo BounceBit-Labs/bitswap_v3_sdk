@@ -159,7 +159,7 @@ export abstract class Simulator {
     if (swapOptions.type == SwapType.UNIVERSAL_ROUTER) {
       const permit2Allowance = await tokenContract.allowance(
         fromAddress,
-        PERMIT2_ADDRESS
+        PERMIT2_ADDRESS(this.chainId)
       );
 
       // If a permit has been provided we don't need to check if UR has already been allowed.
@@ -178,7 +178,7 @@ export abstract class Simulator {
 
       // Check UR has been approved from Permit2.
       const permit2Contract = Permit2__factory.connect(
-        PERMIT2_ADDRESS,
+        PERMIT2_ADDRESS(this.chainId),
         provider
       );
 

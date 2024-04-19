@@ -5,7 +5,9 @@ import _ from 'lodash';
 import { WRAPPED_NATIVE_CURRENCY } from '../../util/chains';
 import { log } from '../../util/log';
 import {
+  BTC_BIT_MAINNET,
   DAI_MAINNET,
+  USD_BIT_MAINNET,
   USDC_MAINNET,
   USDT_MAINNET,
   WBTC_MAINNET,
@@ -29,7 +31,7 @@ const BASES_TO_CHECK_TRADES_AGAINST: ChainTokenList = {
   [ChainId.SEPOLIA]: [WRAPPED_NATIVE_CURRENCY[ChainId.SEPOLIA]!],
   //v2 not deployed on [optimism, arbitrum, polygon, celo, gnosis, moonbeam, bnb, avalanche] and their testnets
   [ChainId.BIT_DEVNET]: [WRAPPED_NATIVE_CURRENCY[ChainId.BIT_DEVNET]!],
- 
+  [ChainId.BIT_MAINNET]: [WRAPPED_NATIVE_CURRENCY[ChainId.BIT_MAINNET]!,BTC_BIT_MAINNET,USD_BIT_MAINNET],
 };
 
 /**
