@@ -7,7 +7,7 @@ export declare const FACTORY_ADDRESS = "0xeC2e9f996faF6CC2f1FD1199F9F3221961645B
 export declare const FACTORY_ADDRESS_MAP: {
     [chainId: number]: string;
 };
-export declare const INIT_CODE_HASH = "0x806f9e4c5e64831c1022a3272b900cd1f5ff84c84347e01724eef542804e0608";
+export type  INIT_CODE_HASH = (chainId:number) => string;
 export declare const MINIMUM_LIQUIDITY: JSBI;
 export declare const ZERO: JSBI;
 export declare const ONE: JSBI;
