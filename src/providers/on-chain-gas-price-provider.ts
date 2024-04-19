@@ -7,7 +7,8 @@ import { LegacyGasPriceProvider } from './legacy-gas-price-provider';
 const DEFAULT_EIP_1559_SUPPORTED_CHAINS = [
   ChainId.MAINNET,
   ChainId.GOERLI,
-  ChainId.BIT_DEVNET
+  ChainId.BIT_DEVNET,
+  ChainId.BIT_MAINNET
 ];
 
 /**

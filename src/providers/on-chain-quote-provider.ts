@@ -366,7 +366,6 @@ export class OnChainQuoteProvider implements IOnChainQuoteProvider {
     let multicallChunk = this.batchParams.multicallChunk;
     let gasLimitOverride = this.batchParams.gasLimitPerCall;
     const { baseBlockOffset, rollback } = this.blockNumberConfig;
-    console.log('smart-router: OnChainQuoteProvider',{multicallChunk})
     // Apply the base block offset if provided
     const originalBlockNumber = await this.provider.getBlockNumber();
     const providerConfig: ProviderConfig = {
@@ -406,7 +405,6 @@ export class OnChainQuoteProvider implements IOnChainQuoteProvider {
         inputs: inputChunk,
       };
     });
-    console.log('smart-router: OnChainQuoteProvider',{quoteStates})
 
     log.info(
       `About to get ${
@@ -579,15 +577,13 @@ export class OnChainQuoteProvider implements IOnChainQuoteProvider {
         ).join(', ');
 
         if (failedQuoteStates.length > 0) {
-          console.log( 'smart-router: OnChainQuoteProvider', `On attempt ${attemptNumber}: ${failedQuoteStates.length}/${quoteStates.length} quotes failed. Reasons: ${reasonForFailureStr}`)
           log.info(
             `On attempt ${attemptNumber}: ${failedQuoteStates.length}/${quoteStates.length} quotes failed. Reasons: ${reasonForFailureStr}`
           );
 
           for (const failedQuoteState of failedQuoteStates) {
             const { reason: error } = failedQuoteState;
-console.log( 'smart-router: OnChainQuoteProvider',  { error },
-  `[QuoteFetchError] Attempt ${attemptNumber}. ${error.message}`)
+            
             log.info(
               { error },
               `[QuoteFetchError] Attempt ${attemptNumber}. ${error.message}`

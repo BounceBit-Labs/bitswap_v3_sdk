@@ -1,6 +1,6 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { ChainId, Token } from '@uniswap/sdk-core';
-import { FACTORY_ADDRESS_MAP , INIT_CODE_HASH,Pair} from '@uniswap/v2-sdk';
+import { Pair} from '@uniswap/v2-sdk';
 import retry, { Options as RetryOptions } from 'async-retry';
 import _ from 'lodash';
 
@@ -63,9 +63,7 @@ export type V2PoolAccessor = {
 };
 
 export type V2PoolRetryOptions = RetryOptions;
-console.log('IV2PoolProvider', {
-  FACTORY_ADDRESS_MA:FACTORY_ADDRESS_MAP , INIT_CODE_HASH: INIT_CODE_HASH
-})
+
 export class V2PoolProvider implements IV2PoolProvider {
   // Computing pool addresses is slow as it requires hashing, encoding etc.
   // Addresses never change so can always be cached.
@@ -96,10 +94,7 @@ export class V2PoolProvider implements IV2PoolProvider {
     const poolAddressSet: Set<string> = new Set<string>();
     const sortedTokenPairs: Array<[Token, Token]> = [];
     const sortedPoolAddresses: string[] = [];
-    console.log('IV2PoolProvider.getPools', {
-      tokenPairs,
-      providerConfig
-    })
+
     for (const tokenPair of tokenPairs) {
       const [tokenA, tokenB] = tokenPair;
 
@@ -252,10 +247,6 @@ export class V2PoolProvider implements IV2PoolProvider {
     tokenB: Token
   ): { poolAddress: string; token0: Token; token1: Token } {
 
-    console.log('IV2PoolProvider.getPoolAddress', {
-      tokenA,
-      tokenB
-    })
     const [token0, token1] = tokenA.sortsBefore(tokenB)
       ? [tokenA, tokenB]
       : [tokenB, tokenA];
@@ -270,12 +261,6 @@ export class V2PoolProvider implements IV2PoolProvider {
 
     const poolAddress = Pair.getAddress(token0, token1);
 
-    console.log('IV2PoolProvider.getPoolAddress', {
-      tokenA,
-      tokenB,
-      poolAddress
-    })
-
     this.POOL_ADDRESS_CACHE[cacheKey] = poolAddress;
 
     return { poolAddress, token0, token1 };
@@ -287,9 +272,6 @@ export class V2PoolProvider implements IV2PoolProvider {
     providerConfig?: ProviderConfig
   ): Promise<Result<TReturn>[]> {
 
-    console.log('IV2PoolProvider.getPoolsData', {
-      poolAddresses
-    })
     const { results, blockNumber } = await retry(async () => {
       return this.multicall2Provider.callSameFunctionOnMultipleContracts<
         undefined,
@@ -301,9 +283,6 @@ export class V2PoolProvider implements IV2PoolProvider {
         providerConfig,
       });
     }, this.retryOptions);
-    console.log('IV2PoolProvider.getPoolsData', {
-      results, blockNumber
-    })
 
     log.debug(`Pool data fetched as of block ${blockNumber}`);
 
