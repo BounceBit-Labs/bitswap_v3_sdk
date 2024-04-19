@@ -9,20 +9,12 @@ import invariant from 'tiny-invariant';
  * @deprecated use FACTORY_ADDRESS_MAP instead
  */
 
-var FACTORY_ADDRESS = '0xeC2e9f996faF6CC2f1FD1199F9F3221961645B8b';
+var FACTORY_ADDRESS = '0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f';
 var FACTORY_ADDRESS_MAP = V2_FACTORY_ADDRESSES;
-var INIT_CODE_HASH = (chainId) => {
-  let hash = ''
-  switch (chainId) {
-    case 6000:
-      '0x806f9e4c5e64831c1022a3272b900cd1f5ff84c84347e01724eef542804e0608'
-      break
-    case 6001: '0x506acd4668762e160bb1fe031041cc47b4b6a5faab43a4cbb58a0d458778a9fd'
-      break
-    default:
-      '0x806f9e4c5e64831c1022a3272b900cd1f5ff84c84347e01724eef542804e0608'
-  }
-  return hash
+var INIT_CODE_HASH = function INIT_CODE_HASH(chainId) {
+  var hash = '';
+
+  return hash;
 };
 var MINIMUM_LIQUIDITY = /*#__PURE__*/JSBI.BigInt(1000); // exports for internal consumption
 
@@ -79,7 +71,7 @@ function _isNativeReflectConstruct() {
   if (typeof Proxy === "function") return true;
 
   try {
-    Date.prototype.toString.call(Reflect.construct(Date, [], function () { }));
+    Date.prototype.toString.call(Reflect.construct(Date, [], function () {}));
     return true;
   } catch (e) {
     return false;
@@ -236,19 +228,20 @@ var InsufficientInputAmountError = /*#__PURE__*/function (_Error2) {
 
 var computePairAddress = function computePairAddress(_ref) {
   var factoryAddress = _ref.factoryAddress,
-    tokenA = _ref.tokenA,
-    tokenB = _ref.tokenB;
+      tokenA = _ref.tokenA,
+      tokenB = _ref.tokenB;
 
   var _ref2 = tokenA.sortsBefore(tokenB) ? [tokenA, tokenB] : [tokenB, tokenA],
-    token0 = _ref2[0],
-    token1 = _ref2[1]; // does safety checks
+      token0 = _ref2[0],
+      token1 = _ref2[1]; // does safety checks
 
-  return getCreate2Address(factoryAddress, keccak256(['bytes'], [pack(['address', 'address'], [token0.address, token1.address])]), INIT_CODE_HASH(token0.address.chainId));
+
+  return getCreate2Address(factoryAddress, keccak256(['bytes'], [pack(['address', 'address'], [token0.address, token1.address])]), INIT_CODE_HASH());
 };
 var Pair = /*#__PURE__*/function () {
   function Pair(currencyAmountA, tokenAmountB) {
     var tokenAmounts = currencyAmountA.currency.sortsBefore(tokenAmountB.currency) // does safety checks
-      ? [currencyAmountA, tokenAmountB] : [tokenAmountB, currencyAmountA];
+    ? [currencyAmountA, tokenAmountB] : [tokenAmountB, currencyAmountA];
     this.liquidityToken = new Token(tokenAmounts[0].currency.chainId, Pair.getAddress(tokenAmounts[0].currency, tokenAmounts[1].currency), 18, 'UNI-V2', 'Uniswap V2');
     this.tokenAmounts = tokenAmounts;
   }
@@ -263,21 +256,21 @@ var Pair = /*#__PURE__*/function () {
       tokenB: tokenB
     });
   }
-    /**
-     * Returns true if the token is either token0 or token1
-     * @param token to check
-     */
-    ;
+  /**
+   * Returns true if the token is either token0 or token1
+   * @param token to check
+   */
+  ;
 
   var _proto = Pair.prototype;
 
   _proto.involvesToken = function involvesToken(token) {
     return token.equals(this.token0) || token.equals(this.token1);
   }
-    /**
-     * Returns the current mid price of the pair in terms of token0, i.e. the ratio of reserve1 to reserve0
-     */
-    ;
+  /**
+   * Returns the current mid price of the pair in terms of token0, i.e. the ratio of reserve1 to reserve0
+   */
+  ;
 
   /**
    * Return the price of the given token in terms of the other token in the pair.
@@ -287,76 +280,76 @@ var Pair = /*#__PURE__*/function () {
     !this.involvesToken(token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
     return token.equals(this.token0) ? this.token0Price : this.token1Price;
   }
-    /**
-     * Returns the chain ID of the tokens in the pair.
-     */
-    ;
+  /**
+   * Returns the chain ID of the tokens in the pair.
+   */
+  ;
 
   _proto.reserveOf = function reserveOf(token) {
     !this.involvesToken(token) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
     return token.equals(this.token0) ? this.reserve0 : this.reserve1;
   }
-    /**
-     * getAmountOut is the linear algebra of reserve ratio against amountIn:amountOut.
-     * https://ethereum.stackexchange.com/questions/101629/what-is-math-for-uniswap-calculates-the-amountout-and-amountin-why-997-and-1000
-     * has the math deduction for the reserve calculation without fee-on-transfer fees.
-     *
-     * With fee-on-transfer tax, intuitively it's just:
-     * inputAmountWithFeeAndTax = 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn
-     *                          = (1 - amountIn.sellFeesBips / 10000) * amountInWithFee
-     * where amountInWithFee is the amountIn after taking out the LP fees
-     * outputAmountWithTax = amountOut * (1 - amountOut.buyFeesBips / 10000)
-     *
-     * But we are illustrating the math deduction below to ensure that's the case.
-     *
-     * before swap A * B = K where A = reserveIn B = reserveOut
-     *
-     * after swap A' * B' = K where only k is a constant value
-     *
-     * getAmountOut
-     *
-     * A' = A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn # here 0.3% is deducted
-     * B' = B - amountOut * (1 - amountOut.buyFeesBips / 10000)
-     * amountOut = (B - B') / (1 - amountOut.buyFeesBips / 10000) # where A' * B' still is k
-     *           = (B - K/(A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn))
-     *             /
-     *             (1 - amountOut.buyFeesBips / 10000)
-     *           = (B - AB/(A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn))
-     *             /
-     *             (1 - amountOut.buyFeesBips / 10000)
-     *           = ((BA + B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn - AB)/(A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn))
-     *             /
-     *             (1 - amountOut.buyFeesBips / 10000)
-     *           = (B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn / (A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn)
-     *             /
-     *             (1 - amountOut.buyFeesBips / 10000)
-     * amountOut * (1 - amountOut.buyFeesBips / 10000) = (B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn
-     *                                                    /
-     *                                                    (A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn)
-     *
-     * outputAmountWithTax = (B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn
-     *                       /
-     *                       (A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn)
-     *                       = (B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn * 1000
-     *                       /
-     *                       ((A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn) * 1000)
-     *                     = (B * (1 - amountIn.sellFeesBips / 10000) 997 * * amountIn
-     *                       /
-     *                       (1000 * A + (1 - amountIn.sellFeesBips / 10000) * 997 * amountIn)
-     *                     = (B * (1 - amountIn.sellFeesBips / 10000) * inputAmountWithFee)
-     *                       /
-     *                       (1000 * A + (1 - amountIn.sellFeesBips / 10000) * inputAmountWithFee)
-     *                     = (B * inputAmountWithFeeAndTax)
-     *                       /
-     *                       (1000 * A + inputAmountWithFeeAndTax)
-     *
-     * inputAmountWithFeeAndTax = (1 - amountIn.sellFeesBips / 10000) * inputAmountWithFee
-     * outputAmountWithTax = amountOut * (1 - amountOut.buyFeesBips / 10000)
-     *
-     * @param inputAmount
-     * @param calculateFotFees
-     */
-    ;
+  /**
+   * getAmountOut is the linear algebra of reserve ratio against amountIn:amountOut.
+   * https://ethereum.stackexchange.com/questions/101629/what-is-math-for-uniswap-calculates-the-amountout-and-amountin-why-997-and-1000
+   * has the math deduction for the reserve calculation without fee-on-transfer fees.
+   *
+   * With fee-on-transfer tax, intuitively it's just:
+   * inputAmountWithFeeAndTax = 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn
+   *                          = (1 - amountIn.sellFeesBips / 10000) * amountInWithFee
+   * where amountInWithFee is the amountIn after taking out the LP fees
+   * outputAmountWithTax = amountOut * (1 - amountOut.buyFeesBips / 10000)
+   *
+   * But we are illustrating the math deduction below to ensure that's the case.
+   *
+   * before swap A * B = K where A = reserveIn B = reserveOut
+   *
+   * after swap A' * B' = K where only k is a constant value
+   *
+   * getAmountOut
+   *
+   * A' = A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn # here 0.3% is deducted
+   * B' = B - amountOut * (1 - amountOut.buyFeesBips / 10000)
+   * amountOut = (B - B') / (1 - amountOut.buyFeesBips / 10000) # where A' * B' still is k
+   *           = (B - K/(A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn))
+   *             /
+   *             (1 - amountOut.buyFeesBips / 10000)
+   *           = (B - AB/(A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn))
+   *             /
+   *             (1 - amountOut.buyFeesBips / 10000)
+   *           = ((BA + B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn - AB)/(A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn))
+   *             /
+   *             (1 - amountOut.buyFeesBips / 10000)
+   *           = (B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn / (A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn)
+   *             /
+   *             (1 - amountOut.buyFeesBips / 10000)
+   * amountOut * (1 - amountOut.buyFeesBips / 10000) = (B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn
+   *                                                    /
+   *                                                    (A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn)
+   *
+   * outputAmountWithTax = (B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn
+   *                       /
+   *                       (A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn)
+   *                       = (B * 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn * 1000
+   *                       /
+   *                       ((A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn) * 1000)
+   *                     = (B * (1 - amountIn.sellFeesBips / 10000) 997 * * amountIn
+   *                       /
+   *                       (1000 * A + (1 - amountIn.sellFeesBips / 10000) * 997 * amountIn)
+   *                     = (B * (1 - amountIn.sellFeesBips / 10000) * inputAmountWithFee)
+   *                       /
+   *                       (1000 * A + (1 - amountIn.sellFeesBips / 10000) * inputAmountWithFee)
+   *                     = (B * inputAmountWithFeeAndTax)
+   *                       /
+   *                       (1000 * A + inputAmountWithFeeAndTax)
+   *
+   * inputAmountWithFeeAndTax = (1 - amountIn.sellFeesBips / 10000) * inputAmountWithFee
+   * outputAmountWithTax = amountOut * (1 - amountOut.buyFeesBips / 10000)
+   *
+   * @param inputAmount
+   * @param calculateFotFees
+   */
+  ;
 
   _proto.getOutputAmount = function getOutputAmount(inputAmount, calculateFotFees) {
     if (calculateFotFees === void 0) {
@@ -394,49 +387,49 @@ var Pair = /*#__PURE__*/function () {
 
     return [outputAmountAfterTax, new Pair(inputReserve.add(inputAmountAfterTax), outputReserve.subtract(outputAmountAfterTax))];
   }
-    /**
-     * getAmountIn is the linear algebra of reserve ratio against amountIn:amountOut.
-     * https://ethereum.stackexchange.com/questions/101629/what-is-math-for-uniswap-calculates-the-amountout-and-amountin-why-997-and-1000
-     * has the math deduction for the reserve calculation without fee-on-transfer fees.
-     *
-     * With fee-on-transfer fees, intuitively it's just:
-     * outputAmountWithTax = amountOut / (1 - amountOut.buyFeesBips / 10000)
-     * inputAmountWithTax = amountIn / (1 - amountIn.sellFeesBips / 10000) / 0.997
-     *
-     * But we are illustrating the math deduction below to ensure that's the case.
-     *
-     * before swap A * B = K where A = reserveIn B = reserveOut
-     *
-     * after swap A' * B' = K where only k is a constant value
-     *
-     * getAmountIn
-     *
-     * B' = B - amountOut * (1 - amountOut.buyFeesBips / 10000)
-     * A' = A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn # here 0.3% is deducted
-     * amountIn = (A' - A) / (0.997 * (1 - amountIn.sellFeesBips / 10000))
-     *          = (K / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)) - A)
-     *            /
-     *            (0.997 * (1 - amountIn.sellFeesBips / 10000))
-     *          = (AB / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)) - A)
-     *            /
-     *            (0.997 * (1 - amountIn.sellFeesBips / 10000))
-     *          = ((AB - AB + A * amountOut / (1 - amountOut.buyFeesBips / 10000)) / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)))
-     *            /
-     *            (0.997 * (1 - amountIn.sellFeesBips / 10000))
-     *          = ((A * amountOut / (1 - amountOut.buyFeesBips / 10000)) / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)))
-     *            /
-     *            (0.997 * (1 - amountIn.sellFeesBips / 10000))
-     *          = ((A * 1000 * amountOut / (1 - amountOut.buyFeesBips / 10000)) / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)))
-     *            /
-     *            (997 * (1 - amountIn.sellFeesBips / 10000))
-     *
-     * outputAmountWithTax = amountOut / (1 - amountOut.buyFeesBips / 10000)
-     * inputAmountWithTax = amountIn / (997 * (1 - amountIn.sellFeesBips / 10000))
-     *                    = (A * outputAmountWithTax * 1000) / ((B - outputAmountWithTax) * 997)
-     *
-     * @param outputAmount
-     */
-    ;
+  /**
+   * getAmountIn is the linear algebra of reserve ratio against amountIn:amountOut.
+   * https://ethereum.stackexchange.com/questions/101629/what-is-math-for-uniswap-calculates-the-amountout-and-amountin-why-997-and-1000
+   * has the math deduction for the reserve calculation without fee-on-transfer fees.
+   *
+   * With fee-on-transfer fees, intuitively it's just:
+   * outputAmountWithTax = amountOut / (1 - amountOut.buyFeesBips / 10000)
+   * inputAmountWithTax = amountIn / (1 - amountIn.sellFeesBips / 10000) / 0.997
+   *
+   * But we are illustrating the math deduction below to ensure that's the case.
+   *
+   * before swap A * B = K where A = reserveIn B = reserveOut
+   *
+   * after swap A' * B' = K where only k is a constant value
+   *
+   * getAmountIn
+   *
+   * B' = B - amountOut * (1 - amountOut.buyFeesBips / 10000)
+   * A' = A + 0.997 * (1 - amountIn.sellFeesBips / 10000) * amountIn # here 0.3% is deducted
+   * amountIn = (A' - A) / (0.997 * (1 - amountIn.sellFeesBips / 10000))
+   *          = (K / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)) - A)
+   *            /
+   *            (0.997 * (1 - amountIn.sellFeesBips / 10000))
+   *          = (AB / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)) - A)
+   *            /
+   *            (0.997 * (1 - amountIn.sellFeesBips / 10000))
+   *          = ((AB - AB + A * amountOut / (1 - amountOut.buyFeesBips / 10000)) / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)))
+   *            /
+   *            (0.997 * (1 - amountIn.sellFeesBips / 10000))
+   *          = ((A * amountOut / (1 - amountOut.buyFeesBips / 10000)) / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)))
+   *            /
+   *            (0.997 * (1 - amountIn.sellFeesBips / 10000))
+   *          = ((A * 1000 * amountOut / (1 - amountOut.buyFeesBips / 10000)) / (B - amountOut / (1 - amountOut.buyFeesBips / 10000)))
+   *            /
+   *            (997 * (1 - amountIn.sellFeesBips / 10000))
+   *
+   * outputAmountWithTax = amountOut / (1 - amountOut.buyFeesBips / 10000)
+   * inputAmountWithTax = amountIn / (997 * (1 - amountIn.sellFeesBips / 10000))
+   *                    = (A * outputAmountWithTax * 1000) / ((B - outputAmountWithTax) * 997)
+   *
+   * @param outputAmount
+   */
+  ;
 
   _proto.getInputAmount = function getInputAmount(outputAmount, calculateFotFees) {
     if (calculateFotFees === void 0) {
@@ -467,7 +460,7 @@ var Pair = /*#__PURE__*/function () {
   _proto.getLiquidityMinted = function getLiquidityMinted(totalSupply, tokenAmountA, tokenAmountB) {
     !totalSupply.currency.equals(this.liquidityToken) ? process.env.NODE_ENV !== "production" ? invariant(false, 'LIQUIDITY') : invariant(false) : void 0;
     var tokenAmounts = tokenAmountA.currency.sortsBefore(tokenAmountB.currency) // does safety checks
-      ? [tokenAmountA, tokenAmountB] : [tokenAmountB, tokenAmountA];
+    ? [tokenAmountA, tokenAmountB] : [tokenAmountB, tokenAmountA];
     !(tokenAmounts[0].currency.equals(this.token0) && tokenAmounts[1].currency.equals(this.token1)) ? process.env.NODE_ENV !== "production" ? invariant(false, 'TOKEN') : invariant(false) : void 0;
     var liquidity;
 
@@ -604,8 +597,8 @@ var Route = /*#__PURE__*/function () {
 
     for (var _iterator = _createForOfIteratorHelperLoose(pairs.entries()), _step; !(_step = _iterator()).done;) {
       var _step$value = _step.value,
-        i = _step$value[0],
-        pair = _step$value[1];
+          i = _step$value[0],
+          pair = _step$value[1];
       var currentInput = path[i];
       !(currentInput.equals(pair.token0) || currentInput.equals(pair.token1)) ? process.env.NODE_ENV !== "production" ? invariant(false, 'PATH') : invariant(false) : void 0;
 
@@ -628,8 +621,8 @@ var Route = /*#__PURE__*/function () {
 
       for (var _iterator2 = _createForOfIteratorHelperLoose(this.pairs.entries()), _step2; !(_step2 = _iterator2()).done;) {
         var _step2$value = _step2.value,
-          i = _step2$value[0],
-          pair = _step2$value[1];
+            i = _step2$value[0],
+            pair = _step2$value[1];
         prices.push(this.path[i].equals(pair.token0) ? new Price(pair.reserve0.currency, pair.reserve1.currency, pair.reserve0.quotient, pair.reserve1.quotient) : new Price(pair.reserve1.currency, pair.reserve0.currency, pair.reserve1.quotient, pair.reserve0.quotient));
       }
 
@@ -712,7 +705,7 @@ var Trade = /*#__PURE__*/function () {
         var pair = route.pairs[i];
 
         var _pair$getOutputAmount = pair.getOutputAmount(tokenAmounts[i]),
-          outputAmount = _pair$getOutputAmount[0];
+            outputAmount = _pair$getOutputAmount[0];
 
         tokenAmounts[i + 1] = outputAmount;
       }
@@ -727,7 +720,7 @@ var Trade = /*#__PURE__*/function () {
         var _pair = route.pairs[_i - 1];
 
         var _pair$getInputAmount = _pair.getInputAmount(tokenAmounts[_i]),
-          inputAmount = _pair$getInputAmount[0];
+            inputAmount = _pair$getInputAmount[0];
 
         tokenAmounts[_i - 1] = inputAmount;
       }
@@ -749,21 +742,21 @@ var Trade = /*#__PURE__*/function () {
   Trade.exactIn = function exactIn(route, amountIn) {
     return new Trade(route, amountIn, TradeType.EXACT_INPUT);
   }
-    /**
-     * Constructs an exact out trade with the given amount out and route
-     * @param route route of the exact out trade
-     * @param amountOut the amount returned by the trade
-     */
-    ;
+  /**
+   * Constructs an exact out trade with the given amount out and route
+   * @param route route of the exact out trade
+   * @param amountOut the amount returned by the trade
+   */
+  ;
 
   Trade.exactOut = function exactOut(route, amountOut) {
     return new Trade(route, amountOut, TradeType.EXACT_OUTPUT);
   }
-    /**
-     * Get the minimum amount that must be received from this trade for the given slippage tolerance
-     * @param slippageTolerance tolerance of unfavorable slippage from the execution price of this trade
-     */
-    ;
+  /**
+   * Get the minimum amount that must be received from this trade for the given slippage tolerance
+   * @param slippageTolerance tolerance of unfavorable slippage from the execution price of this trade
+   */
+  ;
 
   var _proto = Trade.prototype;
 
@@ -777,11 +770,11 @@ var Trade = /*#__PURE__*/function () {
       return CurrencyAmount.fromRawAmount(this.outputAmount.currency, slippageAdjustedAmountOut);
     }
   }
-    /**
-     * Get the maximum amount in that can be spent via this trade for the given slippage tolerance
-     * @param slippageTolerance tolerance of unfavorable slippage from the execution price of this trade
-     */
-    ;
+  /**
+   * Get the maximum amount in that can be spent via this trade for the given slippage tolerance
+   * @param slippageTolerance tolerance of unfavorable slippage from the execution price of this trade
+   */
+  ;
 
   _proto.maximumAmountIn = function maximumAmountIn(slippageTolerance) {
     !!slippageTolerance.lessThan(ZERO) ? process.env.NODE_ENV !== "production" ? invariant(false, 'SLIPPAGE_TOLERANCE') : invariant(false) : void 0;
@@ -793,29 +786,29 @@ var Trade = /*#__PURE__*/function () {
       return CurrencyAmount.fromRawAmount(this.inputAmount.currency, slippageAdjustedAmountIn);
     }
   }
-    /**
-     * Given a list of pairs, and a fixed amount in, returns the top `maxNumResults` trades that go from an input token
-     * amount to an output token, making at most `maxHops` hops.
-     * Note this does not consider aggregation, as routes are linear. It's possible a better route exists by splitting
-     * the amount in among multiple routes.
-     * @param pairs the pairs to consider in finding the best trade
-     * @param nextAmountIn exact amount of input currency to spend
-     * @param currencyOut the desired currency out
-     * @param maxNumResults maximum number of results to return
-     * @param maxHops maximum number of hops a returned trade can make, e.g. 1 hop goes through a single pair
-     * @param currentPairs used in recursion; the current list of pairs
-     * @param currencyAmountIn used in recursion; the original value of the currencyAmountIn parameter
-     * @param bestTrades used in recursion; the current list of best trades
-     */
-    ;
+  /**
+   * Given a list of pairs, and a fixed amount in, returns the top `maxNumResults` trades that go from an input token
+   * amount to an output token, making at most `maxHops` hops.
+   * Note this does not consider aggregation, as routes are linear. It's possible a better route exists by splitting
+   * the amount in among multiple routes.
+   * @param pairs the pairs to consider in finding the best trade
+   * @param nextAmountIn exact amount of input currency to spend
+   * @param currencyOut the desired currency out
+   * @param maxNumResults maximum number of results to return
+   * @param maxHops maximum number of hops a returned trade can make, e.g. 1 hop goes through a single pair
+   * @param currentPairs used in recursion; the current list of pairs
+   * @param currencyAmountIn used in recursion; the original value of the currencyAmountIn parameter
+   * @param bestTrades used in recursion; the current list of best trades
+   */
+  ;
 
   Trade.bestTradeExactIn = function bestTradeExactIn(pairs, currencyAmountIn, currencyOut, _temp, // used in recursion.
-    currentPairs, nextAmountIn, bestTrades) {
+  currentPairs, nextAmountIn, bestTrades) {
     var _ref = _temp === void 0 ? {} : _temp,
-      _ref$maxNumResults = _ref.maxNumResults,
-      maxNumResults = _ref$maxNumResults === void 0 ? 3 : _ref$maxNumResults,
-      _ref$maxHops = _ref.maxHops,
-      maxHops = _ref$maxHops === void 0 ? 3 : _ref$maxHops;
+        _ref$maxNumResults = _ref.maxNumResults,
+        maxNumResults = _ref$maxNumResults === void 0 ? 3 : _ref$maxNumResults,
+        _ref$maxHops = _ref.maxHops,
+        maxHops = _ref$maxHops === void 0 ? 3 : _ref$maxHops;
 
     if (currentPairs === void 0) {
       currentPairs = [];
@@ -872,39 +865,39 @@ var Trade = /*#__PURE__*/function () {
 
     return bestTrades;
   }
-    /**
-     * Return the execution price after accounting for slippage tolerance
-     * @param slippageTolerance the allowed tolerated slippage
-     */
-    ;
+  /**
+   * Return the execution price after accounting for slippage tolerance
+   * @param slippageTolerance the allowed tolerated slippage
+   */
+  ;
 
   _proto.worstExecutionPrice = function worstExecutionPrice(slippageTolerance) {
     return new Price(this.inputAmount.currency, this.outputAmount.currency, this.maximumAmountIn(slippageTolerance).quotient, this.minimumAmountOut(slippageTolerance).quotient);
   }
-    /**
-     * similar to the above method but instead targets a fixed output amount
-     * given a list of pairs, and a fixed amount out, returns the top `maxNumResults` trades that go from an input token
-     * to an output token amount, making at most `maxHops` hops
-     * note this does not consider aggregation, as routes are linear. it's possible a better route exists by splitting
-     * the amount in among multiple routes.
-     * @param pairs the pairs to consider in finding the best trade
-     * @param currencyIn the currency to spend
-     * @param nextAmountOut the exact amount of currency out
-     * @param maxNumResults maximum number of results to return
-     * @param maxHops maximum number of hops a returned trade can make, e.g. 1 hop goes through a single pair
-     * @param currentPairs used in recursion; the current list of pairs
-     * @param currencyAmountOut used in recursion; the original value of the currencyAmountOut parameter
-     * @param bestTrades used in recursion; the current list of best trades
-     */
-    ;
+  /**
+   * similar to the above method but instead targets a fixed output amount
+   * given a list of pairs, and a fixed amount out, returns the top `maxNumResults` trades that go from an input token
+   * to an output token amount, making at most `maxHops` hops
+   * note this does not consider aggregation, as routes are linear. it's possible a better route exists by splitting
+   * the amount in among multiple routes.
+   * @param pairs the pairs to consider in finding the best trade
+   * @param currencyIn the currency to spend
+   * @param nextAmountOut the exact amount of currency out
+   * @param maxNumResults maximum number of results to return
+   * @param maxHops maximum number of hops a returned trade can make, e.g. 1 hop goes through a single pair
+   * @param currentPairs used in recursion; the current list of pairs
+   * @param currencyAmountOut used in recursion; the original value of the currencyAmountOut parameter
+   * @param bestTrades used in recursion; the current list of best trades
+   */
+  ;
 
   Trade.bestTradeExactOut = function bestTradeExactOut(pairs, currencyIn, currencyAmountOut, _temp2, // used in recursion.
-    currentPairs, nextAmountOut, bestTrades) {
+  currentPairs, nextAmountOut, bestTrades) {
     var _ref2 = _temp2 === void 0 ? {} : _temp2,
-      _ref2$maxNumResults = _ref2.maxNumResults,
-      maxNumResults = _ref2$maxNumResults === void 0 ? 3 : _ref2$maxNumResults,
-      _ref2$maxHops = _ref2.maxHops,
-      maxHops = _ref2$maxHops === void 0 ? 3 : _ref2$maxHops;
+        _ref2$maxNumResults = _ref2.maxNumResults,
+        maxNumResults = _ref2$maxNumResults === void 0 ? 3 : _ref2$maxNumResults,
+        _ref2$maxHops = _ref2.maxHops,
+        maxHops = _ref2$maxHops === void 0 ? 3 : _ref2$maxHops;
 
     if (currentPairs === void 0) {
       currentPairs = [];
@@ -978,7 +971,7 @@ var Router = /*#__PURE__*/function () {
   /**
    * Cannot be constructed.
    */
-  function Router() { }
+  function Router() {}
   /**
    * Produces the on-chain method name to call and the hex encoded parameters to pass as arguments for a given trade.
    * @param trade to produce call parameters for

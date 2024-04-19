@@ -3,11 +3,11 @@ import JSBI from 'jsbi';
 /**
  * @deprecated use FACTORY_ADDRESS_MAP instead
  */
-export declare const FACTORY_ADDRESS = "0xeC2e9f996faF6CC2f1FD1199F9F3221961645B8b";
+export declare const FACTORY_ADDRESS = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
 export declare const FACTORY_ADDRESS_MAP: {
     [chainId: number]: string;
 };
-export type  INIT_CODE_HASH = (chainId:number) => string;
+export declare const INIT_CODE_HASH: (chainId: number) => string;
 export declare const MINIMUM_LIQUIDITY: JSBI;
 export declare const ZERO: JSBI;
 export declare const ONE: JSBI;
