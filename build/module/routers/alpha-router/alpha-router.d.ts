@@ -301,7 +301,7 @@ export declare class AlphaRouter implements IRouter<AlphaRouterConfig>, ISwapToR
     /**
      * @inheritdoc IRouter
      */
-    route(amount: CurrencyAmount, quoteCurrency: Currency, tradeType: TradeType, swapConfig?: SwapOptions, partialRoutingConfig?: Partial<AlphaRouterConfig>): Promise<SwapRoute | null>;
+    route(amount: CurrencyAmount, quoteCurrency: Currency, tradeType: TradeType, swapConfig?: SwapOptions, partialRoutingConfig?: Partial<AlphaRouterConfig>, externalGasPriceWei?: string): Promise<SwapRoute | null>;
     private getSwapRouteFromCache;
     private getSwapRouteFromChain;
     private tradeTypeStr;

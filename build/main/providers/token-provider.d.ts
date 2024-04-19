@@ -38,6 +38,8 @@ export declare const WBTC_GOERLI: Token;
 export declare const DAI_GOERLI: Token;
 export declare const UNI_GOERLI: Token;
 export declare const USDT_BIT_DEVNET: Token;
+export declare const USD_BIT_MAINNET: Token;
+export declare const BTC_BIT_MAINNET: Token;
 export declare class TokenProvider implements ITokenProvider {
     private chainId;
     protected multicall2Provider: IMulticallProvider;

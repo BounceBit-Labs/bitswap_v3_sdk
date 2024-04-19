@@ -8,21 +8,8 @@ export declare enum ChainName {
     MAINNET = "mainnet",
     GOERLI = "goerli",
     SEPOLIA = "sepolia",
-    OPTIMISM = "optimism-mainnet",
-    OPTIMISM_GOERLI = "optimism-goerli",
-    ARBITRUM_ONE = "arbitrum-mainnet",
-    ARBITRUM_GOERLI = "arbitrum-goerli",
-    POLYGON = "polygon-mainnet",
-    POLYGON_MUMBAI = "polygon-mumbai",
-    CELO = "celo-mainnet",
-    CELO_ALFAJORES = "celo-alfajores",
-    GNOSIS = "gnosis-mainnet",
-    MOONBEAM = "moonbeam-mainnet",
-    BNB = "bnb-mainnet",
-    AVALANCHE = "avalanche-mainnet",
-    BASE = "base-mainnet",
-    BASE_GOERLI = "base-goerli",
-    BIT_DEVNET = "bounce-bit"
+    BIT_DEVNET = "bounce-bit",
+    BIT_MAINNET = "bounce-bit"
 }
 export declare enum NativeCurrencyName {
     ETHER = "ETH",
