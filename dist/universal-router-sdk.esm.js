@@ -235,20 +235,7 @@ var WETH_ADDRESS = function WETH_ADDRESS(chainId) {
   if (CHAIN_CONFIGS[chainId].weth == WETH_NOT_SUPPORTED_ON_CHAIN) throw new Error("Chain " + chainId + " does not have WETH");
   return CHAIN_CONFIGS[chainId].weth;
 };
-var PERMIT2_ADDRESS = function PERMIT2_ADDRESS(chainId) {
-  var address = '';
-  switch (chainId) {
-    case 6000:
-      address = "0xcf03dd0a894ef79cb5b601a43c4b25e3ae4c67ed";
-      break;
-    case 6001:
-      address = '0x89a053Bca16b3fA7494a203a9Fd420dB8dCAdf6f';
-      break;
-    default:
-      address = '0x000000000022D473030F116dDEE9F6B43aC78BA3';
-  }
-  return address;
-};
+var PERMIT2_ADDRESS = '0x89a053Bca16b3fA7494a203a9Fd420dB8dCAdf6f';
 var CONTRACT_BALANCE = /*#__PURE__*/BigNumber.from(2).pow(255);
 var ETH_ADDRESS = '0x0000000000000000000000000000000000000000';
 var E_ETH_ADDRESS = '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee';
