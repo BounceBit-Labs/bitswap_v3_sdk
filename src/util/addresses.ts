@@ -5,7 +5,7 @@ import { NETWORKS_WITH_SAME_UNISWAP_ADDRESSES } from './chains';
 
 
 export const V3_CORE_FACTORY_ADDRESSES: AddressMap = {
-  ...constructSameAddressMap(FACTORY_ADDRESS(1)),
+  ...constructSameAddressMap(FACTORY_ADDRESS[1]),
   [ChainId.BIT_DEVNET]: CHAIN_TO_ADDRESSES_MAP[ChainId.BIT_DEVNET].v3CoreFactoryAddress,
   [ChainId.BIT_MAINNET]: CHAIN_TO_ADDRESSES_MAP[ChainId.BIT_MAINNET].v3CoreFactoryAddress,
   // TODO: Gnosis + Moonbeam contracts to be deployed

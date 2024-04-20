@@ -6,6 +6,7 @@ import { ProviderConfig } from '../../../providers/provider';
 import {DAI_GOERLI,
   DAI_MAINNET,
   DAI_SEPOLIA,
+  USD_BIT_MAINNET,
   USDC_GOERLI,
   USDC_MAINNET,
   USDC_SEPOLIA,
@@ -35,7 +36,8 @@ export const usdGasTokensByChain: { [chainId in ChainId]?: Token[] } = {
   [ChainId.MAINNET]: [DAI_MAINNET, USDC_MAINNET, USDT_MAINNET],
   [ChainId.GOERLI]: [DAI_GOERLI, USDC_GOERLI, USDT_GOERLI, WBTC_GOERLI],
   [ChainId.SEPOLIA]: [USDC_SEPOLIA, DAI_SEPOLIA],
-  [ChainId.BIT_DEVNET]:[USDT_BIT_DEVNET]
+  [ChainId.BIT_DEVNET]: [USDT_BIT_DEVNET],
+  [ChainId.BIT_MAINNET]:[USD_BIT_MAINNET]
 };
 
 export type L1ToL2GasCosts = {
