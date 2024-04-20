@@ -190,6 +190,8 @@ var Q192 = /*#__PURE__*/JSBI.exponentiate(Q96, /*#__PURE__*/JSBI.BigInt(2));
  */
 
 function computePoolAddress(_ref) {
+  var _token0$chainId;
+
   var factoryAddress = _ref.factoryAddress,
       tokenA = _ref.tokenA,
       tokenB = _ref.tokenB,
@@ -201,7 +203,7 @@ function computePoolAddress(_ref) {
       token1 = _ref2[1]; // does safety checks
 
 
-  return address$1.getCreate2Address(factoryAddress, solidity.keccak256(['bytes'], [abi$2.defaultAbiCoder.encode(['address', 'address', 'uint24'], [token0.address, token1.address, fee])]), initCodeHashManualOverride != null ? initCodeHashManualOverride : POOL_INIT_CODE_HASH(token0.chainId));
+  return address$1.getCreate2Address(factoryAddress, solidity.keccak256(['bytes'], [abi$2.defaultAbiCoder.encode(['address', 'address', 'uint24'], [token0.address, token1.address, fee])]), initCodeHashManualOverride != null ? initCodeHashManualOverride : POOL_INIT_CODE_HASH[(_token0$chainId = token0.chainId) != null ? _token0$chainId : 1]);
 }
 
 var LiquidityMath = /*#__PURE__*/function () {
@@ -1112,8 +1114,10 @@ var Pool = /*#__PURE__*/function () {
   }
 
   Pool.getAddress = function getAddress(tokenA, tokenB, fee, initCodeHashManualOverride, factoryAddressOverride) {
+    var _tokenA$chainId;
+
     return computePoolAddress({
-      factoryAddress: factoryAddressOverride != null ? factoryAddressOverride : FACTORY_ADDRESS(tokenA.chainId),
+      factoryAddress: factoryAddressOverride != null ? factoryAddressOverride : FACTORY_ADDRESS[(_tokenA$chainId = tokenA.chainId) != null ? _tokenA$chainId : 1],
       fee: fee,
       tokenA: tokenA,
       tokenB: tokenB,
