@@ -26,7 +26,7 @@ import {
   CachingV3PoolProvider,
   // CachingV3SubgraphProvider,
   EIP1559GasPriceProvider,
-  // ETHGasStationInfoProvider,
+  ETHGasStationInfoProvider,
   IOnChainQuoteProvider,
   IRouteCachingProvider,
   ISwapRouterProvider,
@@ -118,7 +118,7 @@ import {
 
 import {
   DEFAULT_ROUTING_CONFIG_BY_CHAIN,
-  // ETH_GAS_STATION_API_URL,
+  ETH_GAS_STATION_API_URL,
 } from './config';
 import {
   MixedRouteWithValidQuote,
@@ -610,18 +610,20 @@ export class AlphaRouter
       ]);
     }
 
-    // let gasPriceProviderInstance: IGasPriceProvider;
-    // if (JsonRpcProvider.isProvider(this.provider)) {
-    const  gasPriceProviderInstance = new OnChainGasPriceProvider(
+    let gasPriceProviderInstance: IGasPriceProvider;
+    console.log('this.provider',this.provider)
+    if (JsonRpcProvider.isProvider(this.provider)) {
+    gasPriceProviderInstance = new OnChainGasPriceProvider(
         chainId,
         new EIP1559GasPriceProvider(this.provider as JsonRpcProvider),
         new LegacyGasPriceProvider(this.provider as JsonRpcProvider)
       );
-    // } else {
-    //   gasPriceProviderInstance = new ETHGasStationInfoProvider(
-    //     ETH_GAS_STATION_API_URL
-    //   );
-    // }
+    } else {
+      console.log('this.provider',this.provider, JsonRpcProvider.isProvider(this.provider) )
+      gasPriceProviderInstance = new ETHGasStationInfoProvider(
+        ETH_GAS_STATION_API_URL
+      );
+    }
 
     this.gasPriceProvider =
       gasPriceProvider ??

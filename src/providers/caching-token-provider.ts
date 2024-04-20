@@ -5,9 +5,11 @@ import { log, WRAPPED_NATIVE_CURRENCY } from '../util';
 
 import { ICache } from './cache';
 import {
+  BTC_BIT_MAINNET,
   DAI_MAINNET,
   ITokenProvider,
   TokenAccessor,
+  USD_BIT_MAINNET,
   USDC_MAINNET,
   USDC_SEPOLIA,
   USDT_MAINNET,
@@ -40,6 +42,11 @@ export const CACHE_SEED_TOKENS: {
   },
   [ChainId.BIT_DEVNET]: {
     WETH: WRAPPED_NATIVE_CURRENCY[ChainId.BIT_DEVNET]!,
+  },
+  [ChainId.BIT_MAINNET]: {
+    WETH: WRAPPED_NATIVE_CURRENCY[ChainId.BIT_MAINNET]!,
+    USD: USD_BIT_MAINNET,
+    BBTC:BTC_BIT_MAINNET
   },
  
   // Currently we do not have providers for Moonbeam mainnet or Gnosis testnet

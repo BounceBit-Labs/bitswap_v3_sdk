@@ -9,10 +9,12 @@ import {
   V2SubgraphPool,
 } from '../../../providers';
 import {
+  BTC_BIT_MAINNET,
   DAI_MAINNET,
   DAI_SEPOLIA,
   FEI_MAINNET,
   ITokenProvider,
+  USD_BIT_MAINNET,
   USDC_MAINNET,
   USDC_SEPOLIA,
   USDT_MAINNET,
@@ -101,7 +103,7 @@ const baseTokensByChain: { [chainId in ChainId]?: Token[] } = {
   ],
   [ChainId.BIT_DEVNET]: [],
   [ChainId.SEPOLIA]: [DAI_SEPOLIA, USDC_SEPOLIA],
-
+  [ChainId.BIT_MAINNET]: [WRAPPED_NATIVE_CURRENCY[6001]!,USD_BIT_MAINNET,BTC_BIT_MAINNET],
 };
 
 class SubcategorySelectionPools<SubgraphPool> {
