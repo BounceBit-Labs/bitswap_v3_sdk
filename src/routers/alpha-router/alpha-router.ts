@@ -611,7 +611,7 @@ export class AlphaRouter
     }
 
     let gasPriceProviderInstance: IGasPriceProvider;
-    console.log('this.provider',this.provider)
+
     if (JsonRpcProvider.isProvider(this.provider)) {
     gasPriceProviderInstance = new OnChainGasPriceProvider(
         chainId,
@@ -619,7 +619,6 @@ export class AlphaRouter
         new LegacyGasPriceProvider(this.provider as JsonRpcProvider)
       );
     } else {
-      console.log('this.provider',this.provider, JsonRpcProvider.isProvider(this.provider) )
       gasPriceProviderInstance = new ETHGasStationInfoProvider(
         ETH_GAS_STATION_API_URL
       );
@@ -1569,7 +1568,7 @@ export class AlphaRouter
       protocols.includes(Protocol.MIXED) ||
       (noProtocolsSpecified && v2SupportedInChain);
     const mixedProtocolAllowed =
-      [ChainId.MAINNET, ChainId.GOERLI].includes(this.chainId) &&
+      [ChainId.MAINNET, ChainId.GOERLI, ChainId.BIT_DEVNET, ChainId.BIT_MAINNET].includes(this.chainId) &&
       tradeType === TradeType.EXACT_INPUT;
 
     const beforeGetCandidates = Date.now();
@@ -2202,7 +2201,6 @@ export class AlphaRouter
       async (_b, attempt) => {
         if (attempt > 1) {
           log.info(`Get block number attempt ${attempt}`);
-          console.log(`Get block number attempt ${attempt}`);
         }
         return this.provider?.getBlockNumber();
       },
