@@ -61,7 +61,7 @@ export declare type V3CandidatePools = {
     candidatePools: CandidatePoolsBySelectionCriteria;
     subgraphPools: V3SubgraphPool[];
 };
-export declare function getV3CandidatePools({ tokenIn, tokenOut, routeType, routingConfig, tokenProvider, poolProvider, blockedTokenListProvider, chainId, }: V3GetCandidatePoolsParams): Promise<V3CandidatePools>;
+export declare function getV3CandidatePools({ tokenIn, tokenOut, routeType, routingConfig, subgraphProvider, tokenProvider, poolProvider, blockedTokenListProvider, chainId, }: V3GetCandidatePoolsParams): Promise<V3CandidatePools>;
 export declare type V2CandidatePools = {
     poolAccessor: V2PoolAccessor;
     candidatePools: CandidatePoolsBySelectionCriteria;

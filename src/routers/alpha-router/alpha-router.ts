@@ -1568,7 +1568,7 @@ export class AlphaRouter
       protocols.includes(Protocol.MIXED) ||
       (noProtocolsSpecified && v2SupportedInChain);
     const mixedProtocolAllowed =
-      [ChainId.MAINNET, ChainId.GOERLI, ChainId.BIT_DEVNET, ChainId.BIT_MAINNET].includes(this.chainId) &&
+      [ChainId.MAINNET, ChainId.GOERLI, ChainId.BIT_MAINNET].includes(this.chainId) &&
       tradeType === TradeType.EXACT_INPUT;
 
     const beforeGetCandidates = Date.now();

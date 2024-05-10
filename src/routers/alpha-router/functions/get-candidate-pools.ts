@@ -122,13 +122,13 @@ export type V3CandidatePools = {
   candidatePools: CandidatePoolsBySelectionCriteria;
   subgraphPools: V3SubgraphPool[];
 };
-const allPools:V3SubgraphPool[]=[]
+// const allPools:V3SubgraphPool[]=[]
 export async function getV3CandidatePools({
   tokenIn,
   tokenOut,
   routeType,
   routingConfig,
-  // subgraphProvider,
+  subgraphProvider,
   tokenProvider,
   poolProvider,
   blockedTokenListProvider,
@@ -152,9 +152,9 @@ export async function getV3CandidatePools({
 
   const beforeSubgraphPools = Date.now();
 
-  // const allPools = await subgraphProvider.getPools(tokenIn, tokenOut, {
-  //   blockNumber,
-  // });
+  const allPools = await subgraphProvider.getPools(tokenIn, tokenOut, {
+    blockNumber,
+  });
 
   log.info(
     { samplePools: allPools.slice(0, 3) },

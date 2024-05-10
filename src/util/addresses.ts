@@ -21,6 +21,7 @@ export const QUOTER_V2_ADDRESSES: AddressMap = {
 export const MIXED_ROUTE_QUOTER_V1_ADDRESSES: AddressMap = {
   [ChainId.MAINNET]:
     CHAIN_TO_ADDRESSES_MAP[ChainId.MAINNET].v1MixedRouteQuoterAddress,
+  [ChainId.BIT_MAINNET]: '0x873051Be4c93C982f00023181233CAA6ed55a4DA',
 };
 
 export const UNISWAP_MULTICALL_ADDRESSES: AddressMap = {
