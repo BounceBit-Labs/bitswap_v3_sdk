@@ -157,7 +157,7 @@ export const USDT_BIT_DEVNET = new Token(
 
 export const USD_BIT_MAINNET = new Token(
   ChainId.BIT_MAINNET,
-  '0xddc22a04DF79C7222F7Fb3259d9F1Fdf60D44D4c',
+  '0x75D490f4271058A62b1f26bce1CC50c93fEee633',
   18,
   'BBUSD',
   'BounceBit USD'
@@ -377,6 +377,8 @@ export const USDC_ON = (chainId: ChainId): Token => {
       return USDC_GOERLI;
     case ChainId.SEPOLIA:
       return USDC_SEPOLIA;
+    case ChainId.BIT_MAINNET:
+      return USD_BIT_MAINNET;
     default:
       throw new Error(`Chain id: ${chainId} not supported`);
   }

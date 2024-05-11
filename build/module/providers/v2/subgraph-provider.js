@@ -6,7 +6,7 @@ import _ from 'lodash';
 import { log } from '../../util/log';
 const SUBGRAPH_URL_BY_CHAIN = {
     [ChainId.MAINNET]: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v2-dev',
-    [ChainId.BIT_MAINNET]: 'http://18.139.219.13:8000/subgraphs/name/davekaj/uniswap'
+    [ChainId.BIT_MAINNET]: 'http://18.141.160.15:8000/subgraphs/name/davekaj/uniswap'
 };
 const threshold = 0.025;
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.

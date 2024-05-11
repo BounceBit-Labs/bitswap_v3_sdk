@@ -55,6 +55,7 @@ export function computeAllMixedRoutes(
     parts,
     maxHops
   );
+  console.log("🚀 ~ routesRaw:", parts, routesRaw)
   /// filter out pure v3 and v2 routes
   return routesRaw.filter((route) => {
     return (

@@ -28,7 +28,7 @@ exports.printV2SubgraphPool = printV2SubgraphPool;
 const SUBGRAPH_URL_BY_CHAIN = {
     [sdk_core_1.ChainId.MAINNET]: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
     [sdk_core_1.ChainId.GOERLI]: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-gorli',
-    [sdk_core_1.ChainId.BIT_MAINNET]: 'http://18.139.219.13:8000/subgraphs/name/ianlapham/uniswap-v3'
+    [sdk_core_1.ChainId.BIT_MAINNET]: 'http://18.141.160.15:8000/subgraphs/name/ianlapham/uniswap-v3'
 };
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.
 class V3SubgraphProvider {

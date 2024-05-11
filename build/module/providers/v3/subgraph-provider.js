@@ -9,7 +9,7 @@ export const printV2SubgraphPool = (s) => `${s.token0.id}/${s.token1.id}`;
 const SUBGRAPH_URL_BY_CHAIN = {
     [ChainId.MAINNET]: 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3',
     [ChainId.GOERLI]: 'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-gorli',
-    [ChainId.BIT_MAINNET]: 'http://18.139.219.13:8000/subgraphs/name/ianlapham/uniswap-v3'
+    [ChainId.BIT_MAINNET]: 'http://18.141.160.15:8000/subgraphs/name/ianlapham/uniswap-v3'
 };
 const PAGE_SIZE = 1000; // 1k is max possible query size from subgraph.
 export class V3SubgraphProvider {
