@@ -157,7 +157,7 @@ export const USDT_BIT_DEVNET = new Token(
 
 export const USD_BIT_MAINNET = new Token(
   ChainId.BIT_MAINNET,
-  '0x75D490f4271058A62b1f26bce1CC50c93fEee633',
+  '0x77776b40C3d75cb07ce54dEA4b2Fd1D07F865222',
   18,
   'BBUSD',
   'BounceBit USD'
