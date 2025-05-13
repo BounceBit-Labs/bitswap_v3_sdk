@@ -505,13 +505,17 @@ export class AlphaRouter
               maxTimeout: 1000,
             },
             {
-              multicallChunk: 210,
-              gasLimitPerCall: 705_000,
-              quoteMinSuccessRate: 0.15,
+              multicallChunk: 20,
+              gasLimitPerCall: 2_000_000,
+              quoteMinSuccessRate: 0.2,
             },
             {
-              gasLimitOverride: 2_000_000,
-              multicallChunk: 70,
+              gasLimitOverride: 2_500_000,
+              multicallChunk: 10,
+            },
+            {
+              gasLimitOverride: 2_200_000,
+              multicallChunk: 12,
             }
           );
           break;
@@ -1040,7 +1044,7 @@ export class AlphaRouter
         1,
         MetricLoggerUnit.Count
       );
- 
+
       log.info(
         {
           tokenIn: tokenIn.symbol,
