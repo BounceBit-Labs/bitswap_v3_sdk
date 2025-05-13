@@ -75,12 +75,15 @@ class AlphaRouter {
                         minTimeout: 100,
                         maxTimeout: 1000,
                     }, {
-                        multicallChunk: 210,
-                        gasLimitPerCall: 705000,
-                        quoteMinSuccessRate: 0.15,
+                        multicallChunk: 20,
+                        gasLimitPerCall: 2000000,
+                        quoteMinSuccessRate: 0.2,
                     }, {
-                        gasLimitOverride: 2000000,
-                        multicallChunk: 70,
+                        gasLimitOverride: 2500000,
+                        multicallChunk: 10,
+                    }, {
+                        gasLimitOverride: 2200000,
+                        multicallChunk: 12,
                     });
                     break;
             }
